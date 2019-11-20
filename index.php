@@ -1,15 +1,21 @@
 <?php
-require('controller/frontend.php');
+
+use blog\controller\FrontendController;
+
+require('controller/FrontendController.php');
 require('controller/backend.php');
+
+$FrontendController = new FrontendController();
 
 try {
     if (isset($_GET['action'])){
+
         if ($_GET['action']== 'lisPosts'){
-            listPosts();
+            $FrontendController->listPosts();
         }
         elseif ($_GET['action'] == 'post') {
             if (isset($_GET['id']) && $_GET['id'] > 0) {
-                post();
+                $FrontendController->post();
             }
             else {
                 throw new Exception('Aucun identifiant de billet envoyé');
@@ -17,7 +23,7 @@ try {
         }
     }
     else {
-        listPosts();
+        $FrontendController->listPosts();
     }
 }
 catch(Exception $e){
