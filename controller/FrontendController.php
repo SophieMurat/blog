@@ -20,6 +20,7 @@ class FrontendController
     {
         $postManager = new PostsManager();
         $post = $postManager->getPost($_GET['id']);
+        //var_dump($post);
 
         require('view/postView.php');
     }
