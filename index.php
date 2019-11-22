@@ -1,11 +1,13 @@
 <?php
 
 use blog\controller\FrontendController;
+use blog\controller\BackendController;
 
 require('controller/FrontendController.php');
-require('controller/backend.php');
+require('controller/BackendController.php');
 
 $FrontendController = new FrontendController();
+$BackendController = new BackendController();
 
 try {
     if (isset($_GET['action'])){
@@ -20,6 +22,15 @@ try {
             else {
                 throw new Exception('Aucun identifiant de billet envoyé');
             }
+        }
+        elseif ($_GET['action'] == 'accountCreate'){
+            $BackendController->accountcreate();
+        }
+        elseif ($_GET['action'] == 'login'){
+            $BackendController->login();
+        }
+        elseif ($_GET['action'] == 'admin'){
+            $BackendController->admin();
         }
     }
     else {
