@@ -45,6 +45,8 @@ $subheadingPage='Remplissez le formulaire ci dessous';
         </form>
         <?php if ($this->error): ?>
         <p class="alert alert-danger"><?= $this->msg ?></p>
+        <?php //else: ?>
+        <!--<p class="alert alert-primary"> $this->msg</p>-->
         <?php endif ?>
       </div>
     </div>
