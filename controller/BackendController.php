@@ -28,7 +28,7 @@ class BackendController
     public function login(){
         if (!empty($_POST['login']) && !empty($_POST['password'])){
             $userManager = new UsersManager();
-            $user =$usersManager->login($_POST['login'], $_POST['password']);
+            $user =$userManager->login($_POST['login']);
             if(($_POST['login'] !== $user['login']) || 
             ($_POST['password'] !== $user['password'] )){
                 $error=true;

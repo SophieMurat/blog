@@ -10,18 +10,18 @@ $subheadingPage='Pour participer au blog en laissant vos commentaires';
 <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form action="index.php?action=login" name="login" id="login" method="post">
+        <form action="index.php?action=login" name="loginForm" id="login" method="post">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <label>Login</label>
-                    <input type="text" class="form-control" placeholder="Login" id="login" required  data-validation-required-message="Veuillez remplir ce champs.">
+                    <input type="text" class="form-control" name ="login" placeholder="Login" id="login" required  data-validation-required-message="Veuillez remplir ce champs.">
                     <p class="help-block text-danger"></p>
                 </div>
             </div>
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <label>Mot de passe</label>
-                    <input type="password" class="form-control" placeholder="Mot de passe" id="mot de passe" required data-validation-required-message="Veuillez remplir ce champs.">
+                    <input type="password" class="form-control" name="password" placeholder="Mot de passe" id="mot de passe" required data-validation-required-message="Veuillez remplir ce champs.">
                     <p class="help-block text-danger"></p>
                 </div>
             </div>

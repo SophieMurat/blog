@@ -15,11 +15,11 @@ class UsersManager extends Manager
         die();*/
     }
 
-    public function login($login, $password){
+    public function login($login){
         $db = $this->dbConnect();
         $req = $db->prepare('SELECT id,user_name,password,role, login FROM users 
         WHERE login=? ');
-        $req->execute(array($login, $password));
+        $req->execute(array($login));
         $userData=$req->fetch();
         return $userData;
     }
