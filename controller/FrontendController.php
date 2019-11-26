@@ -37,5 +37,21 @@ class FrontendController
             require('view/errorView.php');
         }    
     }
+    /**
+     * Add a post to home page
+     */
+    public function addPostAdmin(){
+        if (!empty($_POST['title']) && !empty($_POST['content'])){
+            $postManager = new PostsManager();
+            $newPost= $postManager->createPost($_POST['title'],$_POST['content']);
+            if ($affectedLines === false) {
+                throw new Exception('Impossible d\'ajouter l\'article !');
+            }
+            else {
+                header('Location: index.php?action=listPosts');
+            }
+        }
+
+    }
 }
 

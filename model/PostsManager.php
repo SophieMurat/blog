@@ -29,4 +29,15 @@ class PostsManager extends Manager
 
         return $post;
     }
+    /**
+     * Create a post from admin
+     * @param [string] $title
+     * @param [string] $content
+     */
+    public function createPost($title,$content){
+        $db = $this->dbConnect();
+        $req = $db->prepare('INSERT INTO posts(title, post_date, content, user_id) 
+        VALUES(?, NOW(), ?,"1")');
+        $req->execute(array($title,$content));
+    }
 }

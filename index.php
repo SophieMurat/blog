@@ -12,11 +12,14 @@ $BackendController = new BackendController();
 
 if (isset($_GET['action'])){
 
-    if ($_GET['action']== 'lisPosts'){
+    if ($_GET['action']== 'listPosts'){
         $FrontendController->listPosts();
     }
     elseif ($_GET['action'] == 'post') {
         $FrontendController->post();
+    }
+    elseif ($_GET['action'] == 'addPost') {
+        $FrontendController->addPostAdmin();
     }
     elseif ($_GET['action'] == 'accountCreate'){
         $BackendController->accountcreate();
@@ -26,6 +29,9 @@ if (isset($_GET['action'])){
     }
     elseif ($_GET['action'] == 'admin'){
         $BackendController->admin();
+    }
+    elseif ($_GET['action'] == 'createArticle'){
+        $BackendController->createPost(); 
     }
 }
 else {

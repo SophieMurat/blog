@@ -30,7 +30,7 @@ $subheadingPage='Tableau de bord';
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <a href="" style="text-decoration:none"><div class="col mr-2 text-xs font-weight-bold mb-1">Créer un article</div></a>
+                        <a href="index.php?action=createArticle" style="text-decoration:none"><div class="col mr-2 text-xs font-weight-bold mb-1">Créer un article</div></a>
                     </div>
                 </div>
             </div>

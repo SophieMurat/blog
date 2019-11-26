@@ -53,4 +53,7 @@ class BackendController
     public function admin(){
         require('view/adminView.php');
     }
+    public function createPost(){
+        require('view/createPostView.php');
+    }
 }
