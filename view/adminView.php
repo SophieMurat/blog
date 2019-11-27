@@ -1,7 +1,6 @@
 <?php $title = 'Admin';
-$image ='public/img/landscape.jpg';
-$titlePage='Bonjour Jean!';
-$subheadingPage='Tableau de bord';
+$titlePage= 'Bonjour Jean!';
+$subheadingPage="Tableau de bord";
 ?>
 
 
@@ -58,4 +57,4 @@ $subheadingPage='Tableau de bord';
 
 <?php $content = ob_get_clean(); ?>
 
-<?php require('template.php'); ?>
+<?php require('templateAdminView.php'); ?>

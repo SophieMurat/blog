@@ -10,7 +10,7 @@ class UsersManager extends Manager
         $db = $this->dbConnect();
         $req = $db->prepare('INSERT INTO users(user_name, password, role, login) 
         VALUES(?, ?, "user", ?)');
-        $req->execute(array($userName, $password, $login));
+        $req->execute(array($userName, $password, $login));// booleen donc peut pas faire fetch
         /*$req->debugDumpParams();
         die();*/
     }

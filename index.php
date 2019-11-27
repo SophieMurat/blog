@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 use blog\controller\FrontendController;
 use blog\controller\BackendController;
@@ -29,6 +30,9 @@ if (isset($_GET['action'])){
     }
     elseif ($_GET['action'] == 'admin'){
         $BackendController->admin();
+    }
+    elseif ($_GET['action'] == 'unlog'){
+        $BackendController->unplug();
     }
     elseif ($_GET['action'] == 'createArticle'){
         $BackendController->createPost(); 

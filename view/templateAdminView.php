@@ -39,6 +39,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="index.php?action=admin">Retour accueil admin</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="index.php?action=unlog">Se déconnecter</a>
+            </li>
             </ul>
         </div>
         </div>
@@ -56,6 +59,7 @@
       </div>
     </div>
   </header>
+  <h2 class= "text-center"><?= $subheadingPage ?></h2>
     <?= $content ?>
   <!-- Bootstrap core JavaScript -->
   <script src="public/vendor/jquery/jquery.min.js"></script>

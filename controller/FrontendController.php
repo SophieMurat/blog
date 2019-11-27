@@ -43,7 +43,8 @@ class FrontendController
     public function addPostAdmin(){
         if (!empty($_POST['title']) && !empty($_POST['content'])){
             $postManager = new PostsManager();
-            $newPost= $postManager->createPost($_POST['title'],$_POST['content']);
+            $newPost= $postManager->createPost($_POST['title'],$_POST['content']/*$_SESSION['login']*/);
+            //var_dump($_SESSION['login']);
             if ($affectedLines === false) {
                 throw new Exception('Impossible d\'ajouter l\'article !');
             }

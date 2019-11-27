@@ -28,7 +28,7 @@ $subheadingPage='Pour participer au blog en laissant vos commentaires';
             <br>
             <div id="success"></div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" id="sendMessageButton">Se connecter</button>
+                <button type="submit" name ="submit" class="btn btn-primary" id="sendMessageButton">Se connecter</button>
             </div>
         </form>
         <?php if ($this->error): ?>

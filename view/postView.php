@@ -12,7 +12,7 @@ $subheadingPage='Posté par ' .$post['user_name']. ' le ' .$post['post_date_fr']
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             <p>
-                <?= nl2br(htmlspecialchars($post['content'])) ?>
+                <?= nl2br(($post['content'])) ?>
             </p>
             <h2>
             Commentaires
