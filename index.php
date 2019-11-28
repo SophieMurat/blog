@@ -37,6 +37,15 @@ if (isset($_GET['action'])){
     elseif ($_GET['action'] == 'createArticle'){
         $BackendController->createPost(); 
     }
+    elseif ($_GET['action'] == 'getAllPostAdmin'){
+        $BackendController->listPostsAdmin(); 
+    }
+    elseif ($_GET['action'] == 'postAdmin'){
+        $BackendController->postAdmin(); 
+    }
+    elseif ($_GET['action'] == 'postModify'){
+        $BackendController->modifyPost(); 
+    }
 }
 else {
     $FrontendController->listPosts();

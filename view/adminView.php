@@ -11,7 +11,7 @@ $subheadingPage="Tableau de bord";
             <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <a href="" style="text-decoration:none"><div class="col text-xs font-weight-bold">Listes des articles</div></a>
+                        <a href="index.php?action=getAllPostAdmin" style="text-decoration:none"><div class="col text-xs font-weight-bold">Listes des articles</div></a>
                     </div>
                 </div>
             </div>

@@ -2,8 +2,10 @@
 
 namespace blog\controller;
 use projet\blog\model\UsersManager;
+use projet\blog\model\PostsManager;
 
 require_once('model/UsersManager.php');
+require_once('model/PostsManager.php');
 
 class BackendController
 {
@@ -85,5 +87,51 @@ class BackendController
     public function unplug(){
         session_destroy();
         header('Location: index.php');
+    }
+
+    public function listPostsAdmin()
+    {
+        $postManager = new PostsManager();
+        $posts = $postManager->getAllPosts();
+
+        require('view/listPostsAdminView.php');
+    }
+    public function postAdmin()
+    {
+        if (isset($_GET['id']) && $_GET['id'] > 0) {
+            $postManager = new PostsManager();
+            $post = $postManager->getPost($_GET['id']);
+            if($post === false){
+                header("HTTP:1.0 404 Not Found");
+                header('Location:index.php?action=admin');
+            }
+            else{
+                require('view/postAdminView.php');
+            }
+        }
+        else {
+            $this->msg='Aucun identifiant de billet envoyé';
+            require('view/errorView.php');
+        }    
+    }
+    /**
+     * Show the post that needs to be modify
+     */
+    public function modifyPost(){
+        if (isset($_GET['id']) && $_GET['id'] > 0) {
+            $postManager = new PostsManager();
+            $post = $postManager->getPost($_GET['id']);
+            if($post === false){
+                header("HTTP:1.0 404 Not Found");
+                header('Location:index.php?action=postAdmin');
+            }
+            else{
+                require('view/updatePostView.php');
+            }
+        }
+        else {
+            $this->msg='Aucun identifiant de billet envoyé';
+            require('view/errorView.php');
+        }   
     }
 }
