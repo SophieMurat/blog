@@ -8,6 +8,7 @@ require_once('model/UsersManager.php');
 class BackendController
 {
     public $msg= "";
+    public $error=false;
 
     public function accountCreate(){
         if(isset($_POST['submit'])){
@@ -23,7 +24,8 @@ class BackendController
                     $this->msg='Les mots de passe ne sont pas identiques';
                 }
                 else{
-                    $newUser = $userManager->setUser($_POST['name'], $_POST['password'], $_POST['login']);
+                    $hash_pwd=password_hash($_POST['password'], PASSWORD_DEFAULT);
+                    $newUser = $userManager->setUser($_POST['name'], $hash_pwd, $_POST['login']);
                     //$this->msg='Votre inscription a bien été prise en compte';
                     header('Location: index.php?action=login');
                 }
@@ -43,9 +45,9 @@ class BackendController
             if (!empty($_POST['login']) && !empty($_POST['password'])){
                 $userManager = new UsersManager();
                 $user =$userManager->login($_POST['login']);
-                if(($_POST['login'] !== $user['login']) || 
-                ($_POST['password'] !== $user['password'] )){
-                    $error=true;
+                $hashChecked=password_verify($_POST['password'],$user['password']);
+                if(($_POST['login'] !== $user['login']) || ($hashChecked == false)){
+                    $this->error=true;
                     $this->msg ='Au moins l\'un des champs n\'est pas reconnu';
                 }
                 else{
