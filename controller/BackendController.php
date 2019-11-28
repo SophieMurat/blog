@@ -8,34 +8,34 @@ require_once('model/UsersManager.php');
 class BackendController
 {
     public $msg= "";
-    public $error=false;
 
     public function accountCreate(){
-        if (!empty($_POST['name']) && !empty($_POST['login'])
-        && !empty($_POST['password']) && !empty($_POST['password_confirmation'])) {
-            $userManager = new UsersManager();
-            $user =$userManager->login($_POST['login']);
-            if($_POST['login'] == $user['login']){
-                $error=true;
-                $this->msg='Login déjà utilisé!';
-                //var_dump($_POST['login']);
-                //var_dump($user['login']);
+        if(isset($_POST['submit'])){
+            if (!empty($_POST['name']) && !empty($_POST['login'])
+            && !empty($_POST['password']) && !empty($_POST['password_confirmation'])) {
+                $userManager = new UsersManager();
+                $user =$userManager->login($_POST['login']);
+                if($_POST['login'] == $user['login']){
+                    $this->msg='Login déjà utilisé!';
+                
+                }
+                elseif($_POST['password'] !== $_POST['password_confirmation']){
+                    $this->msg='Les mots de passe ne sont pas identiques';
+                }
+                else{
+                    $newUser = $userManager->setUser($_POST['name'], $_POST['password'], $_POST['login']);
+                    //$this->msg='Votre inscription a bien été prise en compte';
+                    header('Location: index.php?action=login');
+                }
             }
-            elseif($_POST['password'] !== $_POST['password_confirmation']){
-                $error=true;
-                $this->msg='Les mots de passe ne sont pas identiques';
+            else {
+                $this->msg='Veuillez remplir tous les champs';
             }
-            else{
-                $newUser = $userManager->setUser($_POST['name'], $_POST['password'], $_POST['login']);
-                //$this->msg='Votre inscription a bien été prise en compte';
-                header('Location: index.php?action=login');
-            }
+            require('view/createAccountView.php');
         }
-        else {
-            $this->error=true;
-            $this->msg='Veuillez remplir tous les champs';
+        else{
+            require('view/createAccountView.php');
         }
-        require('view/createAccountView.php');
     }
 
     public function login(){
@@ -55,6 +55,8 @@ class BackendController
                     elseif ($user['role'] == 'user'){
                         header('Location: index.php');
                     }
+                    $_SESSION['login']=$user['login'];
+                    $_SESSION['id']=$user['id'];
                 }
             }
             else {

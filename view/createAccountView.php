@@ -40,14 +40,10 @@ $subheadingPage='Remplissez le formulaire ci dessous';
             <br>
             <div id="success"></div>
             <div class="form-group">
-                <button type="submit" class="btn btn-primary" id="sendMessageButton">Confirmer</button>
+                <button type="submit" name="submit" class="btn btn-primary" id="sendMessageButton">Confirmer</button>
             </div>
         </form>
-        <?php if ($this->error): ?>
         <p class="alert alert-danger"><?= $this->msg ?></p>
-        <?php //else: ?>
-        <!--<p class="alert alert-primary"> $this->msg</p>-->
-        <?php endif ?>
       </div>
     </div>
 </div>

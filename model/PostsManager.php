@@ -6,6 +6,9 @@ require_once("model/Manager.php");
 
 class PostsManager extends Manager
 {
+    /**
+     * Catch the 5 last posts
+     */
     public function getPosts()
     {
         $db = $this->dbConnect();
@@ -34,10 +37,11 @@ class PostsManager extends Manager
      * @param [string] $title
      * @param [string] $content
      */
-    public function createPost($title,$content){
+    public function createPost($title,$content,$idUser){
         $db = $this->dbConnect();
         $req = $db->prepare('INSERT INTO posts(title, post_date, content, user_id) 
-        VALUES(?, NOW(), ?,"1")');
-        $req->execute(array($title,$content));
+        VALUES(?, NOW(), ?,?)');
+        $createdPost=$req->execute(array($title,$content,$idUser));
+        return $createdPost;
     }
 }

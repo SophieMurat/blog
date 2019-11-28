@@ -3,8 +3,10 @@
 namespace blog\controller;
 
 use projet\blog\model\PostsManager;
+use projet\blog\model\UsersManager;
 // Chargement des classes
 require_once('model/PostsManager.php');
+require_once('model/UsersManager.php');
 
 class FrontendController
 {
@@ -43,12 +45,14 @@ class FrontendController
     public function addPostAdmin(){
         if (!empty($_POST['title']) && !empty($_POST['content'])){
             $postManager = new PostsManager();
-            $newPost= $postManager->createPost($_POST['title'],$_POST['content']/*$_SESSION['login']*/);
-            //var_dump($_SESSION['login']);
-            if ($affectedLines === false) {
-                throw new Exception('Impossible d\'ajouter l\'article !');
+            $userManager = new UsersManager();
+            $newPost= $postManager->createPost($_POST['title'],$_POST['content'],$_SESSION['id']);
+            if ($newPost === false) {
+                $this->msg='Impossible d\'ajouter l\'article !';
+                require('view/createPostView.php');
             }
             else {
+                $this->msg='';
                 header('Location: index.php?action=listPosts');
             }
         }

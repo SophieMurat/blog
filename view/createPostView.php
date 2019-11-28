@@ -29,6 +29,7 @@ $subheadingPage="Créer un nouveau chapitre";
                     <button type="submit" class="btn btn-primary" id="sendMessageButton">Ajouter l'article</button>
                 </div>
             </form>
+            <p><?= $this->msg ?></p>
         </div>
       </div>
     </div>
