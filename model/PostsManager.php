@@ -29,7 +29,7 @@ class PostsManager extends Manager
         DATE_FORMAT(post_date, \'%d/%m/%Y à %Hh%imin%ss\') 
         AS post_date_fr FROM posts
         INNER JOIN users ON posts.user_id=users.id
-        ORDER BY post_date');
+        ORDER BY post_date DESC');
         return $req;
     }
     /**

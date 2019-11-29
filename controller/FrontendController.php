@@ -40,7 +40,7 @@ class FrontendController
         }    
     }
     /**
-     * Add a post to home page
+     * Add a post to listpostAdmin
      */
     public function addPostAdmin(){
         if (!empty($_POST['title']) && !empty($_POST['content'])){
@@ -53,7 +53,7 @@ class FrontendController
             }
             else {
                 $this->msg='';
-                header('Location: index.php?action=listPosts');
+                header('Location: index.php?action=getAllPostAdmin');
             }
         }
     }
