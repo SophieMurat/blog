@@ -134,4 +134,52 @@ class BackendController
             require('view/errorView.php');
         }   
     }
+        /**
+     * Update a post
+     */
+    public function updatePost(){
+        if (!empty($_POST['title']) && !empty($_POST['content'])){
+            $postManager = new PostsManager();
+            $updatedPost= $postManager->postUpdate($_POST['title'],$_POST['content'],$_SESSION['id'],$_GET['id']);
+            /*"<pre>";
+            var_dump($updatedPost);
+            echo "</pre>";
+            die();*/
+            /*print_r($_GET);
+            die();*/
+            if ($updatedPost === false) {
+                $this->msg='Impossible de modifier l\'article !';
+                require('view/updatePostView.php');
+            }
+            else {
+                $this->msg='';
+                //require('view/updatePostView.php');
+                header('Location: index.php?action=getAllPostAdmin');
+            }
+        }
+        else{
+            $this->msg='Veuillez remplir tous les champs!';
+            header('Location: index.php?action=postModify&id='. $_GET['id']);
+        }
+    }
+    /**
+     * Delete one chosen post
+     */
+    public function deletePost(){
+        if (isset($_GET['id']) && $_GET['id'] > 0) {
+            $postManager = new PostsManager();
+            $post = $postManager->postDelete($_GET['id']);
+            if($post === false){
+                header("HTTP:1.0 404 Not Found");
+                header('Location:index.php?action=getAllPostAdmin');
+            }
+            else{
+                header('Location: index.php?action=getAllPostAdmin');
+            }
+        }
+        else {
+            $this->msg='Aucun identifiant de billet envoyé';
+            require('view/errorView.php');
+        }   
+    }
 }

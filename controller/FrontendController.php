@@ -56,7 +56,6 @@ class FrontendController
                 header('Location: index.php?action=listPosts');
             }
         }
-
     }
 }
 

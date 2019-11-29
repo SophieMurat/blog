@@ -79,11 +79,28 @@ class PostsManager extends Manager
     }
     /**
      * Update a post from admin
+     * @param [string] $title
+     * @param [string] $content
+     * @param [int] $idUser
+     * @param [int] $postId
      */
     public function postUpdate($title,$content,$idUser,$postId){
         $db = $this->dbConnect();
         $req = $db->prepare('UPDATE posts SET title=?, content=?, user_id=? WHERE id =?');
         $updatedPost=$req->execute(array($title,$content,$idUser,$postId));
+        /*$req->debugDumpParams();
+        die();*/
         return $updatedPost;
     }
+    /**
+     * Delete one chosen post
+     * @param [int] $postId
+     */
+    public function postDelete($postId){
+        $db = $this->dbConnect();
+        $req = $db->prepare('DELETE FROM posts WHERE id=?');
+        $deletedPost = $req->execute(array($postId));
+        return $deletedPost;
+    }
+        
 }

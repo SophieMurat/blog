@@ -46,6 +46,12 @@ if (isset($_GET['action'])){
     elseif ($_GET['action'] == 'postModify'){
         $BackendController->modifyPost(); 
     }
+    elseif ($_GET['action'] == 'postUpdate'){
+        $BackendController->updatePost(); 
+    }
+    elseif ($_GET['action'] == 'postDelete'){
+        $BackendController->deletePost(); 
+    }
 }
 else {
     $FrontendController->listPosts();

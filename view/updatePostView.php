@@ -9,7 +9,7 @@ $subheadingPage="";
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <form action="index.php?action=postUpdate" name="sentMessage" id="contactForm" method="post" novalidate>
+            <form action="index.php?action=postUpdate&amp;id=<?=$post['id'] ?>" name="sentMessage" id="contactForm" method="post" novalidate>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                     <label>Titre</label>
