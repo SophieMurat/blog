@@ -12,11 +12,25 @@ class FrontendController
 {
     public $msg= "";
 
+    /**
+     * Get all the 5 last posts per page
+     */
     public function listPosts()
     {
         $postManager = new PostsManager();
-        $posts = $postManager->getPosts();
-        //var_dump($posts);
+        $count = $postManager->countPost();
+        $currentPage=(int)($_GET['page'] ?? 1);
+        if($currentPage <= 0) {
+            throw new \Exception('Numéro de page invalide');
+        }
+        $perPage= 5;
+        $start =$perPage*($currentPage-1);
+        //$end=$currentPage*$perPage;
+        $pages = ceil($count /$perPage);
+        if ($currentPage > $pages){
+            throw new \Exception('Cette page n\'existe pas');
+        }
+        $posts = $postManager->getPosts($start,$perPage);
 
         require('view/listPostsView.php');
     }

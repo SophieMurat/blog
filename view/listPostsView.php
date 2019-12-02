@@ -30,6 +30,14 @@
 }
 $posts->closeCursor();
 ?>
+<div>
+    <?php if ($currentPage >1): ?>
+        <button class="btn btn-primary"><a href="index.php?page=<?= $currentPage -1 ?>">&laquo; Page précédente</a></button>
+    <?php endif ?>
+    <?php if ($currentPage <$pages): ?>
+        <button class="btn btn-primary"><a href="index.php?page=<?= $currentPage +1 ?>">Page suivante &raquo;</a></button>
+    <?php endif ?>
+</div>
 <?php $content = ob_get_clean(); ?>
 
 <?php require('template.php'); ?>

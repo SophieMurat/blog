@@ -7,17 +7,25 @@ require_once("model/Manager.php");
 class PostsManager extends Manager
 {
     /**
-     * Catch the 5 last posts
+     * Catch the 5 last posts by page
      */
-    public function getPosts()
+    public function getPosts($start,$perPage)
     {
         $db = $this->dbConnect();
-        $req = $db->query('SELECT posts.id, posts.title, users.user_name, posts.content, 
-        DATE_FORMAT(post_date, \'%d/%m/%Y à %Hh%imin%ss\') 
+        $req = $db->query("SELECT posts.id, posts.title, users.user_name, posts.content, 
+        DATE_FORMAT(post_date, '%d/%m/%Y à %Hh%imin%ss') 
         AS post_date_fr FROM posts
         INNER JOIN users ON posts.user_id=users.id
-        ORDER BY post_date DESC LIMIT 0, 5');
+        ORDER BY post_date DESC LIMIT $start, $perPage");
         return $req;
+    }
+    /**
+     * get the count of posts
+     */
+    public function countPost(){
+        $db = $this->dbConnect();
+        $count=(int)$db->query('SELECT COUNT(id) FROM posts')->fetch()[0];
+        return $count;
     }
     /**
      * Get all posts
