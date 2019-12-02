@@ -4,9 +4,11 @@ namespace blog\controller;
 
 use projet\blog\model\PostsManager;
 use projet\blog\model\UsersManager;
+use project\blog\model\CommentsManager;
 // Chargement des classes
 require_once('model/PostsManager.php');
 require_once('model/UsersManager.php');
+require_once('model/CommentsManager.php');
 
 class FrontendController
 {
@@ -70,6 +72,28 @@ class FrontendController
                 header('Location: index.php?action=getAllPostAdmin');
             }
         }
+    }
+    /**
+     * Add a comment to a post when a user is connected
+     */
+    public function addComment(){
+        if (!empy($_POST['author'])&& !empty($_POST['comment_content'])){
+            $commentManager= new CommentsManager();
+            $newComment=$commentManager->createComment($_GET['id'], $_SESSION['id'], $_POST['comment_content']);
+            if ($newComment === false) {
+                $this->msg='Impossible d\'ajouter le commentaire !';
+                require('view/postView.php');
+            }
+            elseif($_POST['author'] !== $user['name']){
+                $this->msg= 'Veuillez utiliser le nom de votre compte afin de laisser un commentaire';
+                require('view/postView.php');
+            }
+            else{
+                $this->msg='';
+                require('view/postView.php');
+            }
+        }
+
     }
 }
 

@@ -41,7 +41,14 @@
             <a class="nav-link" href="index.php?action=accountCreate">Inscription</a>
           </li>
           <li class="nav-item">
+          <?php
+          $content;
+          if(!empty($_SESSION)){ ?>
+            <a class="nav-link" href="index.php?action=unlog">Se déconnecter</a>
+          <?php }
+          else { ?>
             <a class="nav-link" href="index.php?action=login">Connexion</a>
+          <?php } ?> 
           </li>
         </ul>
       </div>

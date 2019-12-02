@@ -17,18 +17,18 @@ $subheadingPage='Posté par ' .$post['user_name']. ' le ' .$post['post_date_fr']
             <h2>
             Commentaires
             </h2>
-            <form name="sentMessage" id="contactForm" novalidate>
+            <form name="sentComment" id="commentForm" novalidate method="post">
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Nom</label>
-              <input type="text" class="form-control" placeholder="Nom" id="name" required data-validation-required-message="Veuillez vous connecter.">
+              <input type="text" class="form-control" name="author" placeholder="Nom" id="name" required value=<?= $_SESSION['name'] ?>>
               <p class="help-block text-danger"></p>
             </div>
           </div>
           <div class="control-group">
             <div class="form-group floating-label-form-group controls">
               <label>Commentaire</label>
-              <textarea rows="5" class="form-control" placeholder="Commentaire" id="message" required data-validation-required-message="Veuillez écrire votre commentaire."></textarea>
+              <textarea rows="5" class="form-control" name="comment_content" placeholder="Commentaire" id="message" required></textarea>
               <p class="help-block text-danger"></p>
             </div>
           </div>
@@ -40,6 +40,7 @@ $subheadingPage='Posté par ' .$post['user_name']. ' le ' .$post['post_date_fr']
         </form>
         </div>
       </div>
+      <p class="alert alert-danger"><?= $this->msg ?></p>
     </div>
 </article>
 

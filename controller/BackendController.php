@@ -61,6 +61,7 @@ class BackendController
                     }
                     $_SESSION['login']=$user['login'];
                     $_SESSION['id']=$user['id'];
+                    $_SESSION['name']=$user['user_name'];
                 }
             }
             else {

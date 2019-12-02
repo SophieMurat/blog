@@ -22,6 +22,9 @@ if (isset($_GET['action'])){
     elseif ($_GET['action'] == 'addPost') {
         $FrontendController->addPostAdmin();
     }
+    elseif ($_GET['action'] == 'addComment') {
+        $FrontendController->addComment();
+    }
     elseif ($_GET['action'] == 'accountCreate'){
         $BackendController->accountcreate();
     }
