@@ -4,7 +4,7 @@ namespace blog\controller;
 
 use projet\blog\model\PostsManager;
 use projet\blog\model\UsersManager;
-use project\blog\model\CommentsManager;
+use projet\blog\model\CommentsManager;
 // Chargement des classes
 require_once('model/PostsManager.php');
 require_once('model/UsersManager.php');
@@ -33,6 +33,7 @@ class FrontendController
             throw new \Exception('Cette page n\'existe pas');
         }
         $posts = $postManager->getPosts($start,$perPage);
+        //var_dump($posts);
 
         require('view/listPostsView.php');
     }
@@ -40,9 +41,11 @@ class FrontendController
     {
         if (isset($_GET['id']) && $_GET['id'] > 0) {
             $postManager = new PostsManager();
+            $commentManager = new CommentsManager();
             $post = $postManager->getPost($_GET['id']);
-            //var_dump($post);
-            if($post === false){
+            $comments=$commentManager->getComments($_GET['id']);
+            //var_dump($comments);
+            if($post === false || $comments === false){
                 header("HTTP:1.0 404 Not Found");
                 header('Location:index.php');
             }
@@ -77,23 +80,18 @@ class FrontendController
      * Add a comment to a post when a user is connected
      */
     public function addComment(){
-        if (!empy($_POST['author'])&& !empty($_POST['comment_content'])){
+        if (!empty($_POST['comment_content'])){
             $commentManager= new CommentsManager();
             $newComment=$commentManager->createComment($_GET['id'], $_SESSION['id'], $_POST['comment_content']);
             if ($newComment === false) {
                 $this->msg='Impossible d\'ajouter le commentaire !';
                 require('view/postView.php');
             }
-            elseif($_POST['author'] !== $user['name']){
-                $this->msg= 'Veuillez utiliser le nom de votre compte afin de laisser un commentaire';
-                require('view/postView.php');
-            }
             else{
                 $this->msg='';
-                require('view/postView.php');
+                header('Location: index.php?action=post&id=' . $_GET['id']);
             }
         }
-
     }
 }
 

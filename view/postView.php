@@ -17,30 +17,28 @@ $subheadingPage='Posté par ' .$post['user_name']. ' le ' .$post['post_date_fr']
             <h2>
             Commentaires
             </h2>
-            <form name="sentComment" id="commentForm" novalidate method="post">
-          <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-              <label>Nom</label>
-              <input type="text" class="form-control" name="author" placeholder="Nom" id="name" required value=<?= $_SESSION['name'] ?>>
-              <p class="help-block text-danger"></p>
-            </div>
-          </div>
-          <div class="control-group">
-            <div class="form-group floating-label-form-group controls">
-              <label>Commentaire</label>
-              <textarea rows="5" class="form-control" name="comment_content" placeholder="Commentaire" id="message" required></textarea>
-              <p class="help-block text-danger"></p>
-            </div>
-          </div>
-          <br>
-          <div id="success"></div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary" id="sendMessageButton">Soumettre</button>
-          </div>
-        </form>
+            <form action="index.php?action=addComment&amp;id=<?= $post['id'] ?>" name="sentComment" id="commentForm" novalidate method="post">
+              <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                  <label>Commentaire</label>
+                  <textarea rows="5" class="form-control" name="comment_content" placeholder="Commentaire" id="message" required></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <br>
+              <div id="success"></div>
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary" id="sendMessageButton">Soumettre</button>
+              </div>
+            </form>
+            <p class="alert alert-danger"><?= $this->msg ?></p>
+          <?php foreach ($comments as $comment):?>
+              <p><strong><?= htmlspecialchars($comment['user_name']) ?></strong> le <?= $comment['comment_date_fr'] ?> 
+              <p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
+              <button class="btn btn-danger">Signaler le commentaire</button>
+          <?php endforeach; ?>
         </div>
-      </div>
-      <p class="alert alert-danger"><?= $this->msg ?></p>
+      </div> 
     </div>
 </article>
 
