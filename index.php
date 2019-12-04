@@ -58,6 +58,9 @@ if (isset($_GET['action'])){
     elseif ($_GET['action'] == 'postDelete'){
         $BackendController->deletePost(); 
     }
+    elseif ($_GET['action'] == 'listReportedComments'){
+        $BackendController->listReportedComments(); 
+    }
 }
 else {
     $FrontendController->listPosts();

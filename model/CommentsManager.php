@@ -30,7 +30,7 @@ class CommentsManager extends Manager{
         $req = $db->prepare('SELECT comments.id,comments.comment, users.user_name, comments.post_id,
         DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments 
         INNER JOIN users ON comments.user_id=users.id
-        INNER JOIN posts on comments.post_id=posts.id
+        INNER JOIN posts ON comments.post_id=posts.id
         WHERE comments.post_id = ? ORDER BY comment_date DESC');
         $req->execute(array($postId));
         /*$req->debugDumpParams();
@@ -47,5 +47,21 @@ class CommentsManager extends Manager{
         $req->execute(array($commentId));
         /*$req->debugDumpParams();
         die();*/
+    }
+    /**
+     * Get all the reported comments
+     */
+    public function getReportedComment(){
+        $db = $this->dbConnect();
+        $req=$db->query('SELECT comments.id, comments.comment, comments.report, users.user_name,
+        comments.post_id, posts.title, 
+        DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments
+        INNER JOIN users ON comments.user_id=users.id
+        INNER JOIN posts ON comments.post_id=posts.id
+        WHERE report >0 ORDER BY report DESC');
+        /*$req->debugDumpParams();
+        die();*/
+        return $req;
+        //var_dump($reportedComments);
     }
 }

@@ -3,9 +3,11 @@
 namespace blog\controller;
 use projet\blog\model\UsersManager;
 use projet\blog\model\PostsManager;
+use projet\blog\model\CommentsManager;
 
 require_once('model/UsersManager.php');
 require_once('model/PostsManager.php');
+require_once('model/CommentsManager.php');
 
 class BackendController
 {
@@ -183,4 +185,13 @@ class BackendController
             require('view/errorView.php');
         }   
     }
+    /**
+     * display the list of reported comments
+     */
+    public function listReportedComments(){
+            $commentManager = new CommentsManager();
+            $reportedComments = $commentManager->getReportedComment();
+            var_dump($reportedComments);
+            require('view/listCommentsView.php');
+}
 }
