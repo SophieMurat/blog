@@ -25,6 +25,9 @@ if (isset($_GET['action'])){
     elseif ($_GET['action'] == 'addComment') {
         $FrontendController->addComment();
     }
+    elseif ($_GET['action'] == 'reportComment') {
+        $FrontendController->reportComment();
+    }
     elseif ($_GET['action'] == 'accountCreate'){
         $BackendController->accountcreate();
     }

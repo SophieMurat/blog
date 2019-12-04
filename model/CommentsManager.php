@@ -39,11 +39,13 @@ class CommentsManager extends Manager{
         return $comments;
     }
     /**
-     * Send in the table reported comments
+     * Function to report comment
      */
-    public function reportComment(){
+    public function reportComment($commentId){
         $db = $this->dbConnect();
-        $req=$db->prepare('UPDATE comments SET report= report++? WHERE id=?');
-        $req->execute(array($nbReport,$commentId));
+        $req=$db->prepare('UPDATE comments SET report= report+1 WHERE id=?');
+        $req->execute(array($commentId));
+        /*$req->debugDumpParams();
+        die();*/
     }
 }

@@ -35,7 +35,7 @@ $subheadingPage='Posté par ' .$post['user_name']. ' le ' .$post['post_date_fr']
           <?php foreach ($comments as $comment):?>
               <p><strong><?= htmlspecialchars($comment['user_name']) ?></strong> le <?= $comment['comment_date_fr'] ?> 
               <p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
-              <button class="btn btn-danger">Signaler le commentaire</button>
+              <a href="index.php?action=reportComment&amp;id=<?= $comment['post_id']?>&amp;commentId=<?=$comment['id']?>"><button class="btn btn-danger">Signaler le commentaire</button></a>
           <?php endforeach; ?>
         </div>
       </div> 

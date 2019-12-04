@@ -93,5 +93,16 @@ class FrontendController
             }
         }
     }
+    /**
+     * Report a comment when the button is clicked
+     */
+    public function reportComment(){
+        if (isset($_GET['id']) && $_GET['id'] > 0){
+            $commentManager= new CommentsManager();
+            $reportedComment=$commentManager->reportComment($_GET['commentId']);
+            header('Location: index.php?action=post&id=' . $_GET['id']);
+        }
+
+    }
 }
 
