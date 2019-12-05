@@ -190,8 +190,32 @@ class BackendController
      */
     public function listReportedComments(){
             $commentManager = new CommentsManager();
-            $reportedComments = $commentManager->getReportedComment();
-            var_dump($reportedComments);
+            $reportedComments = $commentManager->getReportedComments();
+            //var_dump($reportedComments);
             require('view/listCommentsView.php');
-}
+    }
+    /**
+     * display choices
+     */
+    public function displayChoices(){
+        require('view/listCommentsView.php');
+    }
+    /**
+     * Delete a comment 
+     */
+    public function deleteComment(){
+        $commentManager = new CommentsManager();
+        $reportedComments = $commentManager->getReportedComments();
+        $deletedComment=$commentManager->deleteComment($_GET['commentId']);
+        header('location:index.php?action=listReportedComments');
+    }
+    /**
+     * Reset to 0 the numbers of report on a comment
+     */
+    public function resetReport(){
+        $commentManager = new CommentsManager();
+        $reportedComments = $commentManager->getReportedComments();
+        $resetComment = $commentManager->resetReport($_GET['commentId']);
+        header('location:index.php?action=listReportedComments');
+    }
 }

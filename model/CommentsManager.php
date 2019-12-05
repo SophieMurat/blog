@@ -51,7 +51,7 @@ class CommentsManager extends Manager{
     /**
      * Get all the reported comments
      */
-    public function getReportedComment(){
+    public function getReportedComments(){
         $db = $this->dbConnect();
         $req=$db->query('SELECT comments.id, comments.comment, comments.report, users.user_name,
         comments.post_id, posts.title, 
@@ -63,5 +63,38 @@ class CommentsManager extends Manager{
         die();*/
         return $req;
         //var_dump($reportedComments);
+    }
+    /**
+     * get one comment reported
+     */
+    /*public function getReportedComment($commentId){
+        $db = $this->dbConnect();
+        $req=$db->prepare('SELECT comments.id, comments.comment, comments.report, users.user_name,
+        comments.post_id, posts.title, 
+        DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments
+        INNER JOIN users ON comments.user_id=users.id
+        INNER JOIN posts ON comments.post_id=posts.id
+        WHERE report >0 AND comments.id=?');
+        $req->execute(array($commentId));
+        $comment=$req->fetch();
+        return $comment;
+    }*/
+    /**
+     * Delete a comment
+     */
+    public function deleteComment($commentId){
+        $db = $this->dbConnect();
+        $req=$db->prepare('DELETE FROM comments WHERE id=?');
+        $deleteComment=$req->execute(array($commentId));
+        return $deleteComment;
+    }
+    /**
+     * Reset to 0 the numbers of report
+     */
+    public function resetReport($commentId){
+        $db=$this->dbConnect();
+        $req=$db->prepare('UPDATE comments SET report=0 WHERE id=?');
+        $resetComment=$req->execute(array($commentId));
+        return $resetComment;
     }
 }
