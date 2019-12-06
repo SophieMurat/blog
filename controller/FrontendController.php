@@ -3,24 +3,28 @@
 namespace blog\controller;
 
 use projet\blog\model\PostsManager;
-use projet\blog\model\UsersManager;
 use projet\blog\model\CommentsManager;
 // Chargement des classes
 require_once('model/PostsManager.php');
-require_once('model/UsersManager.php');
 require_once('model/CommentsManager.php');
 
 class FrontendController
 {
     public $msg= "";
+    private $postManager;
+    private $commentManager;
+
+    public function __construct(){
+        $this->postManager = new PostsManager();
+        $this->commentManager = new CommentsManager();
+    }
 
     /**
      * Get all the 5 last posts per page
      */
     public function listPosts()
     {
-        $postManager = new PostsManager();
-        $count = $postManager->countPost();
+        $count = $this->postManager->countPost();
         $currentPage=(int)($_GET['page'] ?? 1);
         if($currentPage <= 0) {
             throw new \Exception('Numéro de page invalide');
@@ -32,7 +36,7 @@ class FrontendController
         if ($currentPage > $pages){
             throw new \Exception('Cette page n\'existe pas');
         }
-        $posts = $postManager->getPosts($start,$perPage);
+        $posts = $this->postManager->getPosts($start,$perPage);
         //var_dump($posts);
 
         require('view/listPostsView.php');
@@ -40,10 +44,8 @@ class FrontendController
     public function post()
     {
         if (isset($_GET['id']) && $_GET['id'] > 0) {
-            $postManager = new PostsManager();
-            $commentManager = new CommentsManager();
-            $post = $postManager->getPost($_GET['id']);
-            $comments=$commentManager->getComments($_GET['id']);
+            $post = $this->postManager->getPost($_GET['id']);
+            $comments=$this->commentManager->getComments($_GET['id']);
             //var_dump($comments);
             if($post === false || $comments === false){
                 header("HTTP:1.0 404 Not Found");
@@ -63,9 +65,7 @@ class FrontendController
      */
     public function addPostAdmin(){
         if (!empty($_POST['title']) && !empty($_POST['content'])){
-            $postManager = new PostsManager();
-            $userManager = new UsersManager();
-            $newPost= $postManager->createPost($_POST['title'],$_POST['content'],$_SESSION['id']);
+            $newPost= $this->postManager->createPost($_POST['title'],$_POST['content'],$_SESSION['id']);
             if ($newPost === false) {
                 $this->msg='Impossible d\'ajouter l\'article !';
                 require('view/createPostView.php');
@@ -81,8 +81,7 @@ class FrontendController
      */
     public function addComment(){
         if (!empty($_POST['comment_content'])){
-            $commentManager= new CommentsManager();
-            $newComment=$commentManager->createComment($_GET['id'], $_SESSION['id'], $_POST['comment_content']);
+            $newComment=$this->commentManager->createComment($_GET['id'], $_SESSION['id'], $_POST['comment_content']);
             if ($newComment === false) {
                 $this->msg='Impossible d\'ajouter le commentaire !';
                 require('view/postView.php');
@@ -98,13 +97,12 @@ class FrontendController
      */
     public function reportComment(){
         if (isset($_GET['id']) && $_GET['id'] > 0){
-            $commentManager= new CommentsManager();
-            $reportedComment=$commentManager->reportComment($_GET['commentId']);
-            $reportedStatus=$commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
-            var_dump($reportedStatus);
+            $reportedComment=$this->commentManager->reportComment($_GET['commentId']);
+            $reportedStatus=$this->commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
+            /*var_dump($reportedStatus);
             var_dump($reportedComment);
             var_dump($_SESSION);
-            var_dump($_GET);
+            var_dump($_GET);*/
             if(($_SESSION['id'])==$reportedStatus['userId_reporter'] && $reportedStatus['status']=="reported"){
                 //$reportedStatus=$commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
                 $this->msg="Vous avez déjà signalé ce commentaire";
