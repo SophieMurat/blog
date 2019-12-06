@@ -89,12 +89,26 @@ class CommentsManager extends Manager{
         return $deleteComment;
     }
     /**
-     * Reset to 0 the numbers of report
+     * Reset to 0 the numbers of report one comment and to status "reset" the status
      */
     public function resetReport($commentId){
         $db=$this->dbConnect();
-        $req=$db->prepare('UPDATE comments SET report=0 WHERE id=?');
+        $req=$db->prepare('UPDATE comments,reportings
+        SET comments.report=0, reportings.status="reset" 
+        WHERE comments.id=reportings.comment_id AND comments.id=?');
         $resetComment=$req->execute(array($commentId));
         return $resetComment;
+    }
+    /**
+     * Change the status of the comment reported
+     */
+    public function reportedStatus($comment_id,$userIdreporter){
+        $db=$this->dbConnect();
+        $req=$db->prepare('INSERT INTO reportings(status, comment_id, userId_reporter)
+        VALUES("reported", ?, ?)');
+        /*$req->debugDumpParams();
+        die();*/
+        $reportedStatus=$req->execute(array($comment_id,$userIdreporter));
+        return $reportedStatus;
     }
 }

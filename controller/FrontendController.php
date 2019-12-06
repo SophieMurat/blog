@@ -100,6 +100,20 @@ class FrontendController
         if (isset($_GET['id']) && $_GET['id'] > 0){
             $commentManager= new CommentsManager();
             $reportedComment=$commentManager->reportComment($_GET['commentId']);
+            $reportedStatus=$commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
+            var_dump($reportedStatus);
+            var_dump($reportedComment);
+            var_dump($_SESSION);
+            var_dump($_GET);
+            if(($_SESSION['id'])==$reportedStatus['userId_reporter'] && $reportedStatus['status']=="reported"){
+                //$reportedStatus=$commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
+                $this->msg="Vous avez déjà signalé ce commentaire";
+                //var_dump($reportedStatus);
+            }
+            else{
+                $this->msg="Votre commentaire a bien été signalé";
+            }
+            //require('view/postView.php');
             header('Location: index.php?action=post&id=' . $_GET['id']);
         }
 
