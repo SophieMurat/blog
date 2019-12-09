@@ -27,7 +27,7 @@ class CommentsManager extends Manager{
      */
     public function getComments($postId){
         $db = $this->dbConnect();
-        $req = $db->prepare('SELECT comments.id,comments.comment, users.user_name, comments.post_id,
+        $req = $db->prepare('SELECT comments.id,comments.comment, users.login, comments.post_id,
         DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments 
         INNER JOIN users ON comments.user_id=users.id
         INNER JOIN posts ON comments.post_id=posts.id
@@ -103,6 +103,7 @@ class CommentsManager extends Manager{
     }
     /**
      * Reset to 0 the numbers of report one comment and to status "reset" the status
+     * @param[int] $commentId
      */
     public function resetReport($commentId){
         $db=$this->dbConnect();
@@ -111,6 +112,16 @@ class CommentsManager extends Manager{
         WHERE comments.id=reportings.comment_id AND comments.id=?');
         $resetComment=$req->execute(array($commentId));
         return $resetComment;
+    }
+    /**
+     * Delete a comment from reportings table when the report as been reset
+     */
+    public function deleteReport($commentId){
+        $db=$this->dbConnect();
+        $req=$db->prepare('DELETE FROM reportings 
+        comment_id=?');
+        $deletedReport=$req->execute(array($commentId));
+        return $deletedReport;
     }
     /**
      * Change the status of the comment reported
