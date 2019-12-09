@@ -80,6 +80,19 @@ class CommentsManager extends Manager{
         return $comment;
     }*/
     /**
+     * Get one reporting
+     */
+    public function getReporting($userId,$commentId){
+        $db = $this->dbConnect();
+        $req=$db->prepare('SELECT status,comment_id, userId_reporter FROM reportings
+        WHERE status="reported" AND userId_reporter=? AND comment_id=?');
+        $req->execute(array($userId,$commentId));
+        /*$req->debugDumpParams();
+        die();*/
+        $comment=$req->fetch();
+        return $comment;
+    }
+    /**
      * Delete a comment
      */
     public function deleteComment($commentId){

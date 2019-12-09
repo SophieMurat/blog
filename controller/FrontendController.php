@@ -80,39 +80,50 @@ class FrontendController
      * Add a comment to a post when a user is connected
      */
     public function addComment(){
-        if (!empty($_POST['comment_content'])){
+        if (!empty($_POST['comment_content'])&& isset($_SESSION['login'])){
             $newComment=$this->commentManager->createComment($_GET['id'], $_SESSION['id'], $_POST['comment_content']);
             if ($newComment === false) {
                 $this->msg='Impossible d\'ajouter le commentaire !';
-                require('view/postView.php');
+                $this->post();
             }
             else{
                 $this->msg='';
                 header('Location: index.php?action=post&id=' . $_GET['id']);
             }
         }
+        else{
+            $this->msg='Veuillez vous inscrire ou vous connecter pour ajouter un commentaire';
+                //header('Location: index.php?action=post&id=' . $_GET['id']);
+            $this->post();
+        }
     }
     /**
      * Report a comment when the button is clicked
      */
     public function reportComment(){
-        if (isset($_GET['id']) && $_GET['id'] > 0){
-            $reportedComment=$this->commentManager->reportComment($_GET['commentId']);
-            $reportedStatus=$this->commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
-            /*var_dump($reportedStatus);
-            var_dump($reportedComment);
+        if (isset($_GET['id']) && $_GET['id'] > 0 && isset($_SESSION['login'])){
+            $commentReported = $this->commentManager->getReporting($_SESSION['id'],$_GET['commentId']);
+            //var_dump($reportedStatus['userId_reporter']);
+            var_dump($commentReported);
             var_dump($_SESSION);
-            var_dump($_GET);*/
-            if(($_SESSION['id'])==$reportedStatus['userId_reporter'] && $reportedStatus['status']=="reported"){
+            //var_dump($_GET);
+            if($commentReported!== false){
                 //$reportedStatus=$commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
                 $this->msg="Vous avez déjà signalé ce commentaire";
-                //var_dump($reportedStatus);
+                $this->post();
             }
             else{
-                $this->msg="Votre commentaire a bien été signalé";
+                $reportedComment=$this->commentManager->reportComment($_GET['commentId']);
+                $reportedStatus=$this->commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
+                $this->msg="Le commentaire a bien été signalé";
+                $this->post();
             }
             //require('view/postView.php');
-            header('Location: index.php?action=post&id=' . $_GET['id']);
+            //header('Location: index.php?action=post&id=' . $_GET['id']);
+        }
+        else{
+            $this->msg="Vous ne pouvez pas signaler de commentaire si vous n'êtes pas inscrits ou connectés";
+            $this->post();
         }
 
     }

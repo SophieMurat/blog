@@ -23,6 +23,4 @@ class UsersManager extends Manager
         $userData=$req->fetch();
         return $userData;
     }
-
-
 }
