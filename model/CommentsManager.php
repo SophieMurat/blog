@@ -41,24 +41,32 @@ class CommentsManager extends Manager{
     /**
      * Function to report comment
      */
-    public function reportComment($commentId){
+    public function reportComment($commentId,$userId){
+        $db = $this->dbConnect();
+        $req=$db->prepare('INSERT INTO reportings (comment_id,userId_reporter)
+        VALUES (?,?)');
+        $affectedLines=$req->execute(array($commentId,$userId));
+        return $affectedLines;
+    }
+    /*public function reportComment($commentId){
         $db = $this->dbConnect();
         $req=$db->prepare('UPDATE comments SET report= report+1 WHERE id=?');
         $req->execute(array($commentId));
-        /*$req->debugDumpParams();
-        die();*/
-    }
+        $req->debugDumpParams();
+        die();
+    }*/
     /**
      * Get all the reported comments
      */
     public function getReportedComments(){
         $db = $this->dbConnect();
-        $req=$db->query('SELECT comments.id, comments.comment, comments.report, users.user_name,
-        comments.post_id, posts.title, 
-        DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments
-        INNER JOIN users ON comments.user_id=users.id
-        INNER JOIN posts ON comments.post_id=posts.id
-        WHERE report >0 ORDER BY report DESC');
+        $req=$db->query('SELECT COUNT(comments.id) AS nbr_comments,comments.id, comments.comment, 
+        users.user_name, comments.post_id, posts.title, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') 
+        AS comment_date_fr FROM comments 
+        INNER JOIN users ON comments.user_id=users.id 
+        INNER JOIN posts ON comments.post_id=posts.id 
+        INNER JOIN reportings ON comments.id=reportings.comment_id 
+        GROUP BY comments.id ORDER BY nbr_comments DESC');
         /*$req->debugDumpParams();
         die();*/
         return $req;
@@ -84,8 +92,8 @@ class CommentsManager extends Manager{
      */
     public function getReporting($userId,$commentId){
         $db = $this->dbConnect();
-        $req=$db->prepare('SELECT status,comment_id, userId_reporter FROM reportings
-        WHERE status="reported" AND userId_reporter=? AND comment_id=?');
+        $req=$db->prepare('SELECT comment_id, userId_reporter FROM reportings
+        WHERE userId_reporter=? AND comment_id=?');
         $req->execute(array($userId,$commentId));
         /*$req->debugDumpParams();
         die();*/
@@ -97,7 +105,10 @@ class CommentsManager extends Manager{
      */
     public function deleteComment($commentId){
         $db = $this->dbConnect();
-        $req=$db->prepare('DELETE FROM comments WHERE id=?');
+        $req=$db->prepare('DELETE comments,reportings FROM comments 
+        INNER JOIN reportings
+        ON comments.id=reportings.comment_id
+        WHERE comments.id=?');
         $deleteComment=$req->execute(array($commentId));
         return $deleteComment;
     }
@@ -105,20 +116,20 @@ class CommentsManager extends Manager{
      * Reset to 0 the numbers of report one comment and to status "reset" the status
      * @param[int] $commentId
      */
-    public function resetReport($commentId){
+    /*public function resetReport($commentId){
         $db=$this->dbConnect();
         $req=$db->prepare('UPDATE comments,reportings
         SET comments.report=0, reportings.status="reset" 
         WHERE comments.id=reportings.comment_id AND comments.id=?');
         $resetComment=$req->execute(array($commentId));
         return $resetComment;
-    }
+    }*/
     /**
      * Delete a comment from reportings table when the report as been reset
      */
     public function deleteReport($commentId){
         $db=$this->dbConnect();
-        $req=$db->prepare('DELETE FROM reportings 
+        $req=$db->prepare('DELETE FROM reportings WHERE
         comment_id=?');
         $deletedReport=$req->execute(array($commentId));
         return $deletedReport;
@@ -126,13 +137,13 @@ class CommentsManager extends Manager{
     /**
      * Change the status of the comment reported
      */
-    public function reportedStatus($comment_id,$userIdreporter){
+    /*public function reportedStatus($comment_id,$userIdreporter){
         $db=$this->dbConnect();
         $req=$db->prepare('INSERT INTO reportings(status, comment_id, userId_reporter)
         VALUES("reported", ?, ?)');
-        /*$req->debugDumpParams();
-        die();*/
+        $req->debugDumpParams();
+        die();
         $reportedStatus=$req->execute(array($comment_id,$userIdreporter));
         return $reportedStatus;
-    }
+    }*/
 }

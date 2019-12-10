@@ -215,7 +215,7 @@ class BackendController
      */
     public function resetReport(){
         $reportedComments = $this->commentManager->getReportedComments();
-        $resetComment = $this->commentManager->resetReport($_GET['commentId']);
+        //$resetComment = $this->commentManager->resetReport($_GET['commentId']);
         $deleteReport = $this->commentManager->deleteReport($_GET['commentId']);
         header('location:index.php?action=listReportedComments');
     }

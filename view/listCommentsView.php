@@ -24,7 +24,7 @@ $subheadingPage="Choisissez une action";
             <td><?= $comment['comment_date_fr'] ?></td>
             <td><?= $comment['user_name'] ?></td>
             <td><?= $comment['comment'] ?></td>
-            <td><?= $comment['report']?></td>
+            <td><?= $comment['nbr_comments']?></td>
             <td>
             <div class="btn-group" role="group">
                 <a href="href=index.php?action=displayChoices&amp;commentId=<?= $comment['id']?>"><button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>

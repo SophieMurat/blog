@@ -113,8 +113,8 @@ class FrontendController
                 $this->post();
             }
             else{
-                $reportedComment=$this->commentManager->reportComment($_GET['commentId']);
-                $reportedStatus=$this->commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
+                $reportedComment=$this->commentManager->reportComment($_GET['commentId'],$_SESSION['id']);
+                //$reportedStatus=$this->commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
                 $this->msg="Le commentaire a bien été signalé";
                 $this->post();
             }
