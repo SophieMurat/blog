@@ -4,10 +4,12 @@ namespace blog\controller;
 use projet\blog\model\UsersManager;
 use projet\blog\model\PostsManager;
 use projet\blog\model\CommentsManager;
+use projet\blog\model\User;
 
 require_once('model/UsersManager.php');
 require_once('model/PostsManager.php');
 require_once('model/CommentsManager.php');
+require_once("model/User.php");
 
 class BackendController
 {
@@ -29,7 +31,7 @@ class BackendController
             if (!empty($_POST['name']) && !empty($_POST['login'])
             && !empty($_POST['password']) && !empty($_POST['password_confirmation'])) {
                 $user =$this->userManager->login($_POST['login']);
-                if($_POST['login'] == $user['login']){
+                if($user){
                     $this->msg='Login déjà utilisé!';
                 
                 }
@@ -38,9 +40,15 @@ class BackendController
                 }
                 else{
                     $hash_pwd=password_hash($_POST['password'], PASSWORD_DEFAULT);
-                    $newUser = $this->userManager->setUser($_POST['name'], $hash_pwd, $_POST['login']);
+                    var_dump($hash_pwd);
+                    $newUser = new User(array(
+                        'user_name'=>$_POST['name'],
+                        'password'=> $hash_pwd, 
+                        'login'=>$_POST['login']));
+                    var_dump($newUser);
+                    $this->userManager->setUser($newUser);
                     //$this->msg='Votre inscription a bien été prise en compte';
-                    header('Location: index.php?action=login');
+                    //header('Location: index.php?action=login');
                 }
             }
             else {
@@ -57,22 +65,35 @@ class BackendController
         if(isset($_POST['submit'])){
             if (!empty($_POST['login']) && !empty($_POST['password'])){
                 $user =$this->userManager->login($_POST['login']);
-                $hashChecked=password_verify($_POST['password'],$user['password']);
-                if(($_POST['login'] !== $user['login']) || ($hashChecked == false)){
+                var_dump($user);
+                if(!$user/*$_POST['login'] !== $user->login()) || ($hashChecked == false)*/){
                     $this->error=true;
-                    $this->msg ='Au moins l\'un des champs n\'est pas reconnu';
+                    $this->msg ='Login inconnu veuillez vous inscrire';
                 }
+                /*elseif($hashChecked == false){
+                    $this->error=true;
+                    $this->msg ='Mauvais mot de passe';
+                }*/
                 else{
-                    if ($user['role'] == 'admin'){
-                        header('Location: index.php?action=admin');
+                    $hashChecked=password_verify($_POST['password'],$user->password());
+                    var_dump($hashChecked);
+                    if($hashChecked){
+                        if ($user->role() == 'admin'){
+                            header('Location: index.php?action=admin');
+                        }
+                        elseif ($user->role() == 'user'){
+                            header('Location: index.php');
+                        }
+                        $_SESSION['login']=$user->login();
+                        $_SESSION['id']=$user->id();
+                        $_SESSION['user_name']=$user->user_name();
                     }
-                    elseif ($user['role'] == 'user'){
-                        header('Location: index.php');
+                    else{
+                        $this->error=true;
+                        $this->msg ='Mauvais mot de passe';
                     }
-                    $_SESSION['login']=$user['login'];
-                    $_SESSION['id']=$user['id'];
-                    $_SESSION['name']=$user['user_name'];
                 }
+                
             }
             else {
                 $this->error=true;
