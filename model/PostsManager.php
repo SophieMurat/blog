@@ -3,22 +3,34 @@
 namespace projet\blog\model;
 
 require_once("model/Manager.php");
+require_once("model/Post.php");
+
 
 class PostsManager extends Manager
 {
     /**
      * Catch the 5 last posts by page
      */
-    public function getPosts($start,$perPage)
-    {
+    public function getPosts($start,$perPage) {
         $db = $this->dbConnect();
-        $req = $db->query("SELECT posts.id, posts.title, users.user_name, posts.content, 
-        DATE_FORMAT(post_date, '%d/%m/%Y à %Hh%imin%ss') 
-        AS post_date_fr FROM posts
+        $req = $db->prepare("SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
+        DATE_FORMAT(post_date, '%d/%m/%Y à %Hh%imin%ss') AS post_date_fr FROM posts
         INNER JOIN users ON posts.user_id=users.id
-        ORDER BY post_date DESC LIMIT $start, $perPage");
-        return $req;
+        ORDER BY post_date DESC LIMIT :start, :perPage");
+                
+        $req->execute([
+            'start' => $start,
+            'perPage' => $perPage
+        ]);
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'projet\blog\model\Post');
+        //var_dump($req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'projet\blog\model\Post'));
+        $posts=$req->fetchAll();
+        var_dump($req);
+        var_dump($posts);
+    
+        return $posts;
     }
+    
     /**
      * get the count of posts
      */
