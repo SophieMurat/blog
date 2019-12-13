@@ -48,7 +48,7 @@ class BackendController
                     var_dump($newUser);
                     $this->userManager->setUser($newUser);
                     //$this->msg='Votre inscription a bien été prise en compte';
-                    header('Location: index.php?action=login');
+                    //header('Location: index.php?action=login');
                 }
             }
             else {

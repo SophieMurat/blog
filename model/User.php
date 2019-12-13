@@ -1,8 +1,9 @@
 <?php
 
 namespace projet\blog\model;
+require_once("model/Entity.php");
 
-class User
+class User extends Entity
 {
     private $_id;
     private $_user_name;
@@ -10,7 +11,7 @@ class User
     private $_role;
     private $_login;
 
-    public function __construct(array $data)
+    /*public function __construct(array $data)
     {
         $this->hydrate($data);
     }
@@ -20,7 +21,7 @@ class User
      *
      * @param array $data
      */
-    public function hydrate(array $data)
+    /*public function hydrate(array $data)
     {
         foreach ($data as $key => $value)
         {
@@ -54,8 +55,8 @@ class User
         if(isset($data['login']))
         {
             $this->setLogin($data['login']);
-        }*/
-    }
+        }
+    }*/
 
     // Liste des getters
 

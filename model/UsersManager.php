@@ -14,6 +14,8 @@ class UsersManager extends Manager
         $req->execute(array($user->user_name(), $user->password(), $user->login()));// booleen donc peut pas faire fetch
         /*$req->debugDumpParams();
         die();*/
+        var_dump($user);
+        var_dump($req);
     }
 
     public function login($login){
