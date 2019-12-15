@@ -86,8 +86,11 @@ class Post extends Entity
             $this->content=$content;
         }
     }
-    public function setUser_id($_user_id){
-        $this->user_id=$user_id;
+    public function setUser_id($user_id){
+        $user_id=(int) $user_id;
+        if($user_id>0){
+            $this->user_id=$user_id;
+        }    
     }
     /*public function setAuthor($author){
         $this->_author;

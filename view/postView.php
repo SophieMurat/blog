@@ -1,7 +1,7 @@
-<?php $title = htmlspecialchars($post['title']);
+<?php $title = htmlspecialchars($post->getTitle());
 $image ='public/img/mountains.jpg';
-$titlePage=htmlspecialchars($post['title']);
-$subheadingPage='Posté par ' .$post['user_name']. ' le ' .$post['post_date_fr'] ;
+$titlePage=htmlspecialchars($post->getTitle());
+$subheadingPage='Posté par ' .$post->getAuthor(). ' le ' .$post->getPost_date_fr() ;
 ?>
 
 
@@ -12,12 +12,12 @@ $subheadingPage='Posté par ' .$post['user_name']. ' le ' .$post['post_date_fr']
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
             <p>
-                <?= nl2br(($post['content'])) ?>
+                <?= nl2br($post->getContent()) ?>
             </p>
             <h2>
             Commentaires
             </h2>
-            <form action="index.php?action=addComment&amp;id=<?= $post['id'] ?>" name="sentComment" id="commentForm" novalidate method="post">
+            <form action="index.php?action=addComment&amp;id=<?= $post->getId() ?>" name="sentComment" id="commentForm" novalidate method="post">
               <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                   <label>Commentaire</label>
@@ -33,9 +33,9 @@ $subheadingPage='Posté par ' .$post['user_name']. ' le ' .$post['post_date_fr']
             </form>
             <p class="alert alert-danger"><?= $this->msg ?></p>
           <?php foreach ($comments as $comment):?>
-              <p><strong><?= htmlspecialchars($comment['login']) ?></strong> le <?= $comment['comment_date_fr'] ?> 
-              <p><?= nl2br(htmlspecialchars($comment['comment'])) ?></p>
-              <a href="index.php?action=reportComment&amp;id=<?= $comment['post_id']?>&amp;commentId=<?=$comment['id']?>"><button class="btn btn-danger">Signaler le commentaire</button></a>
+              <p><strong><?= htmlspecialchars($comment->getAuthor()) ?></strong> le <?= $comment->getComment_date_fr() ?> 
+              <p><?= nl2br(htmlspecialchars($comment->getComment())) ?></p>
+              <a href="index.php?action=reportComment&amp;id=<?= $comment->getPost_id()?>&amp;commentId=<?=$comment->getId()?>"><button class="btn btn-danger">Signaler le commentaire</button></a>
           <?php endforeach; ?>
         </div>
       </div> 

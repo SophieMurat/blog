@@ -42,7 +42,6 @@
           </li>
           <li class="nav-item">
           <?php
-          $content;
           if(!empty($_SESSION)){ ?>
             <a class="nav-link" href="index.php?action=unlog">Se déconnecter</a>
           <?php }

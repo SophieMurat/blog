@@ -5,11 +5,17 @@ use projet\blog\model\UsersManager;
 use projet\blog\model\PostsManager;
 use projet\blog\model\CommentsManager;
 use projet\blog\model\User;
+use projet\blog\model\Post;
+use projet\blog\model\Comment;
+use projet\blog\model\Report;
 
 require_once('model/UsersManager.php');
 require_once('model/PostsManager.php');
 require_once('model/CommentsManager.php');
 require_once("model/User.php");
+require_once("model/Post.php");
+require_once("model/Comment.php");
+require_once("model/Report.php");
 
 class BackendController
 {
@@ -48,7 +54,7 @@ class BackendController
                     var_dump($newUser);
                     $this->userManager->setUser($newUser);
                     //$this->msg='Votre inscription a bien été prise en compte';
-                    //header('Location: index.php?action=login');
+                    header('Location: index.php?action=login');
                 }
             }
             else {
@@ -168,14 +174,22 @@ class BackendController
      */
     public function updatePost(){
         if (!empty($_POST['title']) && !empty($_POST['content'])){
-            $updatedPost= $this->postManager->postUpdate($_POST['title'],$_POST['content'],$_SESSION['id'],$_GET['id']);
+            $updatedPost= new Post(array(
+                'title'=>$_POST['title'],
+                'content'=>$_POST['content'],
+                'user_id'=>$_SESSION['id'],
+                'id'=>$_GET['id']
+            ));
+            $update=$this->postManager->postUpdate($updatedPost);
             /*"<pre>";
             var_dump($updatedPost);
             echo "</pre>";
-            die();*/
+            var_dump($update);
+            die();
             /*print_r($_GET);
             die();*/
-            if ($updatedPost === false) {
+            if ($update === false) {
+                $post = $this->postManager->getPost($_GET['id']);
                 $this->msg='Impossible de modifier l\'article !';
                 require('view/updatePostView.php');
             }
@@ -195,7 +209,8 @@ class BackendController
      */
     public function deletePost(){
         if (isset($_GET['id']) && $_GET['id'] > 0) {
-            $post = $this->postManager->postDelete($_GET['id']);
+            $deletedPost=new Post(array('id'=>$_GET['id']));
+            $post = $this->postManager->postDelete($deletedPost);
             if($post === false){
                 header("HTTP:1.0 404 Not Found");
                 header('Location:index.php?action=getAllPostAdmin');
@@ -228,7 +243,9 @@ class BackendController
      */
     public function deleteComment(){
         $reportedComments = $this->commentManager->getReportedComments();
-        $deletedComment=$this->commentManager->deleteComment($_GET['commentId']);
+        $delete=new Comment(array('id'=>$_GET['commentId']));
+        var_dump($delete);
+        $deletedComment=$this->commentManager->deleteComment($delete);
         header('location:index.php?action=listReportedComments');
     }
     /**
@@ -236,8 +253,8 @@ class BackendController
      */
     public function resetReport(){
         $reportedComments = $this->commentManager->getReportedComments();
-        //$resetComment = $this->commentManager->resetReport($_GET['commentId']);
-        $deleteReport = $this->commentManager->deleteReport($_GET['commentId']);
+        $report= new Report(array('comment_id'=>$_GET['commentId']));
+        $deleteReport = $this->commentManager->deleteReport($report);
         header('location:index.php?action=listReportedComments');
     }
 }

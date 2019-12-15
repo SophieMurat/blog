@@ -13,15 +13,15 @@ $subheadingPage="";
       {
       ?>
         <div class="post-preview">
-          <a href="index.php?action=postAdmin&amp;id=<?= $data['id']?>">
+          <a href="index.php?action=postAdmin&amp;id=<?= $data->getId()?>">
             <h2 class="post-title">
-                <?= htmlspecialchars($data['title']) ?>
+                <?= htmlspecialchars($data->getTitle()) ?>
             </h2>
             <h3 class="post-subtitle">
-                <?= substr(nl2br($data['content']),0,100) ?>...
+                <?= substr(nl2br($data->getContent()),0,100) ?>...
                 <br/>
             </h3>
-            <p class="post-meta">Posté le  <?= $data['post_date_fr'] ?> </p>
+            <p class="post-meta">Posté le  <?= $data->getPost_date_fr() ?> </p>
             <button type="button" class="btn btn-primary">Modifier</button>
             <button type="button" class="btn btn-danger">Supprimer</button>
           </a>
