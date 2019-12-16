@@ -22,7 +22,6 @@ $subheadingPage='Posté par ' .$post->getAuthor(). ' le ' .$post->getPost_date_f
                 <div class="form-group floating-label-form-group controls">
                   <label>Commentaire</label>
                   <textarea rows="5" class="form-control" name="comment_content" placeholder="Commentaire" id="message" required></textarea>
-                  <p class="help-block text-danger"></p>
                 </div>
               </div>
               <br>
@@ -31,7 +30,9 @@ $subheadingPage='Posté par ' .$post->getAuthor(). ' le ' .$post->getPost_date_f
                 <button type="submit" class="btn btn-primary" id="sendMessageButton">Soumettre</button>
               </div>
             </form>
+            <?php if ($this->error): ?>
             <p class="alert alert-danger"><?= $this->msg ?></p>
+            <?php endif ?>
           <?php foreach ($comments as $comment):?>
               <p><strong><?= htmlspecialchars($comment->getAuthor()) ?></strong> le <?= $comment->getComment_date_fr() ?> 
               <p><?= nl2br(htmlspecialchars($comment->getComment())) ?></p>

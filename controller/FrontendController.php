@@ -17,6 +17,7 @@ require_once("model/Report.php");
 class FrontendController
 {
     public $msg= "";
+    public $error=false;
     private $postManager;
     private $commentManager;
 
@@ -43,7 +44,7 @@ class FrontendController
             throw new \Exception('Cette page n\'existe pas');
         }
         $posts = $this->postManager->getPosts($start,$perPage);
-        //var_dump($posts);
+        //var_dump($_SESSION);
 
         require('view/listPostsView.php');
     }
@@ -103,15 +104,16 @@ class FrontendController
             ));
             $newComment=$this->commentManager->createComment($commentCreate);
             if ($newComment === false) {
+                $this->error=true;
                 $this->msg='Impossible d\'ajouter le commentaire !';
                 $this->post();
             }
             else{
-                $this->msg='';
                 header('Location: index.php?action=post&id=' . $_GET['id']);
             }
         }
         else{
+            $this->error=true;
             $this->msg='Veuillez vous inscrire ou vous connecter pour ajouter un commentaire';
                 //header('Location: index.php?action=post&id=' . $_GET['id']);
             $this->post();
