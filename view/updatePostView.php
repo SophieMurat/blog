@@ -9,18 +9,18 @@ $subheadingPage="";
     <div class="container">
       <div class="row">
         <div class="col-lg-8 col-md-10 mx-auto">
-            <form action="index.php?action=postUpdate&amp;id=<?=$post['id'] ?>" name="sentMessage" id="contactForm" method="post" novalidate>
+            <form action="index.php?action=postUpdate&amp;id=<?=$post->getId() ?>" name="sentMessage" id="contactForm" method="post" novalidate>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls">
                     <label>Titre</label>
-                    <input type="text" class="form-control" name="title" value="<?=$post['title'] ?>" id="title" required>
+                    <input type="text" class="form-control" name="title" value="<?=$post->getTitle() ?>" id="title" required>
                     <p class="help-block text-danger"></p>
                     </div>
                 </div>
                 <div class="control-group">
                     <div class="form-group floating-label-form-group controls floating-label-form-group-with-value">
                     <label>Chapitre</label>
-                    <textarea rows="5" placeholder="Contenu" name="content" id="article_content" required><?= $post['content'] ?></textarea>
+                    <textarea rows="5" placeholder="Contenu" name="content" id="article_content" required><?= $post->getContent() ?></textarea>
                     <p class="help-block text-danger"></p>
                     </div>
                 </div>

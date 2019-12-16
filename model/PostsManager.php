@@ -3,22 +3,34 @@
 namespace projet\blog\model;
 
 require_once("model/Manager.php");
+require_once("model/Post.php");
+
 
 class PostsManager extends Manager
 {
     /**
      * Catch the 5 last posts by page
      */
-    public function getPosts($start,$perPage)
-    {
+    public function getPosts($start,$perPage) {
         $db = $this->dbConnect();
-        $req = $db->query("SELECT posts.id, posts.title, users.user_name, posts.content, 
-        DATE_FORMAT(post_date, '%d/%m/%Y à %Hh%imin%ss') 
-        AS post_date_fr FROM posts
+        $req = $db->query("SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
+        DATE_FORMAT(post_date, '%d/%m/%Y à %Hh%imin%ss') AS post_date_fr FROM posts
         INNER JOIN users ON posts.user_id=users.id
-        ORDER BY post_date DESC LIMIT $start, $perPage");
-        return $req;
+        ORDER BY post_date DESC LIMIT $start,$perPage");
+                
+        /*$req->execute([
+            'start' => $start,
+            'perPage' => $perPage
+        ]);*/
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'projet\blog\model\Post');
+        //var_dump($req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'projet\blog\model\Post'));
+        $posts=$req->fetchAll();
+        /*var_dump($req);
+        var_dump($posts);*/
+    
+        return $posts;
     }
+    
     /**
      * get the count of posts
      */
@@ -33,11 +45,13 @@ class PostsManager extends Manager
     public function getAllPosts()
     {
         $db = $this->dbConnect();
-        $req = $db->query('SELECT posts.id, posts.title, users.user_name, posts.content, 
+        $req = $db->query('SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
         DATE_FORMAT(post_date, \'%d/%m/%Y à %Hh%imin%ss\') 
         AS post_date_fr FROM posts
         INNER JOIN users ON posts.user_id=users.id
         ORDER BY post_date DESC');
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 
+        'projet\blog\model\Post');
         return $req;
     }
     /**
@@ -47,14 +61,15 @@ class PostsManager extends Manager
     public function getPost($postId)
     {
         $db = $this->dbConnect();
-        $req = $db->prepare('SELECT posts.id, posts.title, users.user_name, posts.content, 
+        $req = $db->prepare('SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
         DATE_FORMAT(post_date, \'%d/%m/%Y à %Hh%imin%ss\')
         AS post_date_fr 
         FROM posts 
         INNER JOIN users ON posts.user_id=users.id WHERE posts.id = ?');
         $req->execute(array($postId));//execute la requete préparée et la range dans un array
-        $post = $req->fetch();// recupére chaque ligne de la requête donc ici les posts
-
+        $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 
+        'projet\blog\model\Post');
+        $post = $req->fetch( );// recupére chaque ligne de la requête donc ici les posts
         return $post;
     }
     /**
@@ -78,11 +93,12 @@ class PostsManager extends Manager
      * @param [string] $content
      * @param [int] $idUser
      */
-    public function createPost($title,$content,$idUser){
+    public function createPost(Post $post){
         $db = $this->dbConnect();
         $req = $db->prepare('INSERT INTO posts(title, post_date, content, user_id) 
         VALUES(?, NOW(), ?,?)');
-        $createdPost=$req->execute(array($title,$content,$idUser));
+        $createdPost=$req->execute(array($post->getTitle(),$post->getContent(),
+        $post->getUser_id()));
         return $createdPost;
     }
     /**
@@ -92,22 +108,22 @@ class PostsManager extends Manager
      * @param [int] $idUser
      * @param [int] $postId
      */
-    public function postUpdate($title,$content,$idUser,$postId){
+    public function postUpdate(Post $post){
         $db = $this->dbConnect();
         $req = $db->prepare('UPDATE posts SET title=?, content=?, user_id=? WHERE id =?');
-        $updatedPost=$req->execute(array($title,$content,$idUser,$postId));
+        $updatedPost=$req->execute(array($post->getTitle(),$post->getContent(),$post->getUser_id(),$post->getId()));
         /*$req->debugDumpParams();
-        die();*/
+        var_dump($updatedPost);*/
         return $updatedPost;
     }
     /**
      * Delete one chosen post
      * @param [int] $postId
      */
-    public function postDelete($postId){
+    public function postDelete(Post $post){
         $db = $this->dbConnect();
         $req = $db->prepare('DELETE FROM posts WHERE id=?');
-        $deletedPost = $req->execute(array($postId));
+        $deletedPost = $req->execute(array($post->getId()));
         return $deletedPost;
     }
         

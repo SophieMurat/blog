@@ -4,9 +4,15 @@ namespace blog\controller;
 
 use projet\blog\model\PostsManager;
 use projet\blog\model\CommentsManager;
+use projet\blog\model\Post;
+use projet\blog\model\Comment;
+use projet\blog\model\Report;
 // Chargement des classes
 require_once('model/PostsManager.php');
 require_once('model/CommentsManager.php');
+require_once("model/Post.php");
+require_once("model/Comment.php");
+require_once("model/Report.php");
 
 class FrontendController
 {
@@ -65,8 +71,13 @@ class FrontendController
      */
     public function addPostAdmin(){
         if (!empty($_POST['title']) && !empty($_POST['content'])){
-            $newPost= $this->postManager->createPost($_POST['title'],$_POST['content'],$_SESSION['id']);
-            if ($newPost === false) {
+            $newPost= new Post(array(
+                'title'=>$_POST['title'],
+                'content'=>$_POST['content'],
+                'user_id'=>$_SESSION['id']));
+            $created=$this->postManager->createPost($newPost);
+            //var_dump($newPost);
+            if ($created === false) {
                 $this->msg='Impossible d\'ajouter l\'article !';
                 require('view/createPostView.php');
             }
@@ -75,13 +86,22 @@ class FrontendController
                 header('Location: index.php?action=getAllPostAdmin');
             }
         }
+        else{
+            $this->msg='Veuillez remplir le titre et le contenu de l\'article';
+            require('view/createPostView.php');
+        }
     }
     /**
      * Add a comment to a post when a user is connected
      */
     public function addComment(){
         if (!empty($_POST['comment_content'])&& isset($_SESSION['login'])){
-            $newComment=$this->commentManager->createComment($_GET['id'], $_SESSION['id'], $_POST['comment_content']);
+            $commentCreate= new Comment(array(
+                'post_id'=>$_GET['id'],
+                'user_id'=>$_SESSION['id'],
+                'comment'=>$_POST['comment_content']
+            ));
+            $newComment=$this->commentManager->createComment($commentCreate);
             if ($newComment === false) {
                 $this->msg='Impossible d\'ajouter le commentaire !';
                 $this->post();
@@ -113,7 +133,11 @@ class FrontendController
                 $this->post();
             }
             else{
-                $reportedComment=$this->commentManager->reportComment($_GET['commentId'],$_SESSION['id']);
+                $report= new Report(array(
+                    'comment_id'=>$_GET['commentId'],
+                    'userId_reporter'=>$_SESSION['id']
+                ));
+                $reportedComment=$this->commentManager->reportComment($report);
                 //$reportedStatus=$this->commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
                 $this->msg="Le commentaire a bien été signalé";
                 $this->post();

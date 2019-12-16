@@ -20,18 +20,18 @@ $subheadingPage="Choisissez une action";
         <tbody>
         <?php foreach($reportedComments as $comment): ?>
         <tr>
-            <td><?= $comment['title'] ?></td>
-            <td><?= $comment['comment_date_fr'] ?></td>
-            <td><?= $comment['user_name'] ?></td>
-            <td><?= $comment['comment'] ?></td>
-            <td><?= $comment['nbr_comments']?></td>
+            <td><?= $comment->getPost_title() ?></td>
+            <td><?= $comment->getComment_date_fr() ?></td>
+            <td><?= $comment->getAuthor() ?></td>
+            <td><?= $comment->getComment() ?></td>
+            <td><?= $comment->getNbr_comments()?></td>
             <td>
             <div class="btn-group" role="group">
-                <a href="href=index.php?action=displayChoices&amp;commentId=<?= $comment['id']?>"><button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
+                <a href="href=index.php?action=displayChoices&amp;commentId=<?= $comment->getId()?>"><button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 Choix</button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                <a class="dropdown-item alert alert-danger" href="index.php?action=deleteComment&amp;commentId=<?= $comment['id'] ?>">Supprimer</a>
-                <a class="dropdown-item alert alert-success" href="index.php?action=resetReport&amp;commentId=<?= $comment['id']?>">Retirer le signalement</a>
+                <a class="dropdown-item alert alert-danger" href="index.php?action=deleteComment&amp;commentId=<?= $comment->getId() ?>">Supprimer</a>
+                <a class="dropdown-item alert alert-success" href="index.php?action=resetReport&amp;commentId=<?= $comment->getId()?>">Retirer le signalement</a>
                 </div>
             </div>
             </td>

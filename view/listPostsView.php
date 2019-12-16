@@ -9,26 +9,25 @@
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
       <?php
-      while ($data = $posts->fetch())
+      foreach($posts as $post)
       {
       ?>
         <div class="post-preview">
-          <a href="index.php?action=post&amp;id=<?= $data['id'] ?>">
+          <a href="index.php?action=post&amp;id=<?= $post->getId() ?>">
             <h2 class="post-title">
-                <?= htmlspecialchars($data['title']) ?>
+                <?= htmlspecialchars($post->getTitle()) ?>
             </h2>
             <h3 class="post-subtitle">
-                <?= substr(nl2br($data['content']),0,100) ?>...
+                <?= substr(nl2br($post->getContent()),0,100) ?>...
                 <br/>
             </h3>
           </a>
-          <p class="post-meta">Posté par <?= $data['user_name'] ?>
-            le  <?= $data['post_date_fr'] ?> </p>
+          <p class="post-meta">Posté par <?= $post->getAuthor() ?>
+            le  <?= $post->getPost_date_fr() ?> </p>
         </div>
         <hr>
 <?php
 }
-$posts->closeCursor();
 ?>
 <div>
     <?php if ($currentPage >1): ?>
