@@ -15,14 +15,12 @@ $subheadingPage='Pour participer au blog en laissant vos commentaires';
                 <div class="form-group floating-label-form-group controls">
                     <label>Login</label>
                     <input type="text" class="form-control" name ="login" placeholder="Login" id="login" required  data-validation-required-message="Veuillez remplir ce champs.">
-                    <p class="help-block text-danger"></p>
                 </div>
             </div>
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <label>Mot de passe</label>
                     <input type="password" class="form-control" name="password" placeholder="Mot de passe" id="mot de passe" required data-validation-required-message="Veuillez remplir ce champs.">
-                    <p class="help-block text-danger"></p>
                 </div>
             </div>
             <br>

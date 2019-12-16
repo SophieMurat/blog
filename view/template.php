@@ -38,9 +38,6 @@
             <a class="nav-link" href="index.php">Accueil</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="index.php?action=accountCreate">Inscription</a>
-          </li>
-          <li class="nav-item">
           <?php
           if(!empty($_SESSION)){ ?>
             <a class="nav-link" href="index.php?action=unlog">Se déconnecter</a>
@@ -48,6 +45,18 @@
           else { ?>
             <a class="nav-link" href="index.php?action=login">Connexion</a>
           <?php } ?> 
+          </li>
+          <li class="nav-item">
+          <?php
+          if(empty($_SESSION)){?>
+            <a class="nav-link" href="index.php?action=accountCreate">Inscription</a>
+          <?php }
+          elseif($_SESSION['role']== 'admin'){?>
+          <a class="nav-link" href="index.php?action=admin">Retour accueil admin</a>
+          <?php }
+          else { ?>
+          <a>Bonjour <?=$_SESSION['user_name']?> !</a>
+          <?php } ?>
           </li>
         </ul>
       </div>

@@ -23,6 +23,7 @@ class UsersManager extends Manager
         $req = $db->prepare('SELECT id,user_name,password,role, login FROM users 
         WHERE login=? ');
         $req->execute(array($login));
+        var_dump($req);
         $userData=$req->fetch(\PDO::FETCH_ASSOC);
         
         if (!$userData){

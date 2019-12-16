@@ -38,10 +38,12 @@ class BackendController
             && !empty($_POST['password']) && !empty($_POST['password_confirmation'])) {
                 $user =$this->userManager->login($_POST['login']);
                 if($user){
+                    $this->error=true;
                     $this->msg='Login déjà utilisé!';
                 
                 }
                 elseif($_POST['password'] !== $_POST['password_confirmation']){
+                    $this->error=true;
                     $this->msg='Les mots de passe ne sont pas identiques';
                 }
                 else{
@@ -58,6 +60,7 @@ class BackendController
                 }
             }
             else {
+                $this->error=true;
                 $this->msg='Veuillez remplir tous les champs';
             }
             require('view/createAccountView.php');
@@ -72,17 +75,13 @@ class BackendController
             if (!empty($_POST['login']) && !empty($_POST['password'])){
                 $user =$this->userManager->login($_POST['login']);
                 var_dump($user);
-                if(!$user/*$_POST['login'] !== $user->login()) || ($hashChecked == false)*/){
+                if(!$user){
                     $this->error=true;
                     $this->msg ='Login inconnu veuillez vous inscrire';
                 }
-                /*elseif($hashChecked == false){
-                    $this->error=true;
-                    $this->msg ='Mauvais mot de passe';
-                }*/
                 else{
                     $hashChecked=password_verify($_POST['password'],$user->password());
-                    var_dump($hashChecked);
+                    //var_dump($hashChecked);
                     if($hashChecked){
                         if ($user->role() == 'admin'){
                             header('Location: index.php?action=admin');
@@ -93,6 +92,7 @@ class BackendController
                         $_SESSION['login']=$user->login();
                         $_SESSION['id']=$user->id();
                         $_SESSION['user_name']=$user->user_name();
+                        $_SESSION['role']=$user->role();
                     }
                     else{
                         $this->error=true;
