@@ -14,8 +14,7 @@ class CommentsManager extends Manager{
      * @param [int] $userId
      */
     public function createComment(Comment $comment){
-        $db = $this->dbConnect();
-        $comments = $db->prepare('INSERT INTO comments(post_id, user_id, comment, comment_date) 
+        $comments = $this->db->prepare('INSERT INTO comments(post_id, user_id, comment, comment_date) 
         VALUES(?, ?, ?, NOW())');
         //var_dump($comment);
         $affectedLines = $comments->execute(array($comment->getPost_id(), $comment->getUser_id(), $comment->getComment()));
@@ -29,8 +28,7 @@ class CommentsManager extends Manager{
      * @param [int] $postId
      */
     public function getComments($postId){
-        $db = $this->dbConnect();
-        $req = $db->prepare('SELECT comments.id,comments.comment, users.login AS author, comments.post_id,
+        $req = $this->db->prepare('SELECT comments.id,comments.comment, users.login AS author, comments.post_id,
         DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') AS comment_date_fr FROM comments 
         INNER JOIN users ON comments.user_id=users.id
         INNER JOIN posts ON comments.post_id=posts.id
@@ -45,8 +43,7 @@ class CommentsManager extends Manager{
      * Function to report comment
      */
     public function reportComment(Report $report){
-        $db = $this->dbConnect();
-        $req=$db->prepare('INSERT INTO reportings (comment_id,userId_reporter)
+        $req=$this->db->prepare('INSERT INTO reportings (comment_id,userId_reporter)
         VALUES (?,?)');
         $affectedLines=$req->execute(array($report->getComment_id(),$report->getUserId_reporter()));
         return $affectedLines;
@@ -62,8 +59,7 @@ class CommentsManager extends Manager{
      * Get all the reported comments
      */
     public function getReportedComments(){
-        $db = $this->dbConnect();
-        $req=$db->query('SELECT COUNT(comments.id) AS nbr_comments,comments.id, comments.comment, 
+        $req=$this->db->query('SELECT COUNT(comments.id) AS nbr_comments,comments.id, comments.comment, 
         users.user_name AS author, comments.post_id, posts.title AS post_title, DATE_FORMAT(comment_date, \'%d/%m/%Y à %Hh%imin%ss\') 
         AS comment_date_fr FROM comments 
         INNER JOIN users ON comments.user_id=users.id 
@@ -82,8 +78,7 @@ class CommentsManager extends Manager{
      * Get one reporting
      */
     public function getReporting($userId,$commentId){
-        $db = $this->dbConnect();
-        $req=$db->prepare('SELECT comment_id, userId_reporter FROM reportings
+        $req=$this->db->prepare('SELECT comment_id, userId_reporter FROM reportings
         WHERE userId_reporter=? AND comment_id=?');
         //var_dump($req);
         $req->execute(array($userId,$commentId));
@@ -98,8 +93,7 @@ class CommentsManager extends Manager{
      * Delete a comment
      */
     public function deleteComment(Comment $comment){
-        $db = $this->dbConnect();
-        $req=$db->prepare('DELETE comments,reportings FROM comments 
+        $req=$this->db->prepare('DELETE comments,reportings FROM comments 
         INNER JOIN reportings
         ON comments.id=reportings.comment_id
         WHERE comments.id=?');
@@ -111,8 +105,7 @@ class CommentsManager extends Manager{
      * Delete a comment from reportings table when the report as been reset
      */
     public function deleteReport(Report $report){
-        $db=$this->dbConnect();
-        $req=$db->prepare('DELETE FROM reportings WHERE
+        $req=$this->db->prepare('DELETE FROM reportings WHERE
         comment_id=?');
         $deletedReport=$req->execute(array($report->getComment_id()));
         return $deletedReport;

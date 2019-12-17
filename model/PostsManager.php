@@ -12,8 +12,7 @@ class PostsManager extends Manager
      * Catch the 5 last posts by page
      */
     public function getPosts($start,$perPage) {
-        $db = $this->dbConnect();
-        $req = $db->query("SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
+        $req = $this->db->query("SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
         DATE_FORMAT(post_date, '%d/%m/%Y à %Hh%imin%ss') AS post_date_fr FROM posts
         INNER JOIN users ON posts.user_id=users.id
         ORDER BY post_date DESC LIMIT $start,$perPage");
@@ -45,8 +44,7 @@ class PostsManager extends Manager
      * get the count of posts
      */
     public function countPost(){
-        $db = $this->dbConnect();
-        $count=(int)$db->query('SELECT COUNT(id) FROM posts')->fetch()[0];
+        $count=(int)$this->db->query('SELECT COUNT(id) FROM posts')->fetch()[0];
         return $count;
     }
     /**
@@ -54,8 +52,7 @@ class PostsManager extends Manager
      */
     public function getAllPosts()
     {
-        $db = $this->dbConnect();
-        $req = $db->query('SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
+        $req = $this->db->query('SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
         DATE_FORMAT(post_date, \'%d/%m/%Y à %Hh%imin%ss\') 
         AS post_date_fr FROM posts
         INNER JOIN users ON posts.user_id=users.id
@@ -70,8 +67,7 @@ class PostsManager extends Manager
      */
     public function getPost($postId)
     {
-        $db = $this->dbConnect();
-        $req = $db->prepare('SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
+        $req = $this->db->prepare('SELECT posts.id, posts.title, users.user_name AS author, posts.content, 
         DATE_FORMAT(post_date, \'%d/%m/%Y à %Hh%imin%ss\')
         AS post_date_fr 
         FROM posts 
@@ -88,8 +84,7 @@ class PostsManager extends Manager
      */
     public function getPostAdmin($postId)
     {
-        $db = $this->dbConnect();
-        $req = $db->prepare('SELECT id, title, content, 
+        $req = $this->db->prepare('SELECT id, title, content, 
         DATE_FORMAT(post_date, \'%d/%m/%Y à %Hh%imin%ss\')
         AS post_date_fr FROM posts WHERE id = ?');
         $req->execute(array($postId));//execute la requete préparée et la range dans un array
@@ -104,8 +99,7 @@ class PostsManager extends Manager
      * @param [int] $idUser
      */
     public function createPost(Post $post){
-        $db = $this->dbConnect();
-        $req = $db->prepare('INSERT INTO posts(title, post_date, content, user_id) 
+        $req = $this->db->prepare('INSERT INTO posts(title, post_date, content, user_id) 
         VALUES(?, NOW(), ?,?)');
         $createdPost=$req->execute(array($post->getTitle(),$post->getContent(),
         $post->getUser_id()));
@@ -119,8 +113,7 @@ class PostsManager extends Manager
      * @param [int] $postId
      */
     public function postUpdate(Post $post){
-        $db = $this->dbConnect();
-        $req = $db->prepare('UPDATE posts SET title=?, content=?, user_id=? WHERE id =?');
+        $req = $this->db->prepare('UPDATE posts SET title=?, content=?, user_id=? WHERE id =?');
         $updatedPost=$req->execute(array($post->getTitle(),$post->getContent(),$post->getUser_id(),$post->getId()));
         /*$req->debugDumpParams();
         var_dump($updatedPost);*/
@@ -131,8 +124,7 @@ class PostsManager extends Manager
      * @param [int] $postId
      */
     public function postDelete(Post $post){
-        $db = $this->dbConnect();
-        $req = $db->prepare('DELETE FROM posts WHERE id=?');
+        $req = $this->db->prepare('DELETE FROM posts WHERE id=?');
         $deletedPost = $req->execute(array($post->getId()));
         return $deletedPost;
     }

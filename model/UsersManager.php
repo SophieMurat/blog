@@ -8,8 +8,7 @@ require_once("model/User.php");
 class UsersManager extends Manager
 {
     public function setUser(User $user){
-        $db = $this->dbConnect();
-        $req = $db->prepare('INSERT INTO users(user_name, password, role, login) 
+        $req = $this->db->prepare('INSERT INTO users(user_name, password, role, login) 
         VALUES(?, ?, "user", ?)');
         $req->execute(array($user->user_name(), $user->password(), $user->login()));// booleen donc peut pas faire fetch
         /*$req->debugDumpParams();
@@ -19,8 +18,7 @@ class UsersManager extends Manager
     }
 
     public function login($login){
-        $db = $this->dbConnect();
-        $req = $db->prepare('SELECT id,user_name,password,role, login FROM users 
+        $req = $this->db->prepare('SELECT id,user_name,password,role, login FROM users 
         WHERE login=? ');
         $req->execute(array($login));
         var_dump($req);

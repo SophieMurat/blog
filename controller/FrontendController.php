@@ -125,12 +125,8 @@ class FrontendController
     public function reportComment(){
         if (isset($_GET['id']) && $_GET['id'] > 0 && isset($_SESSION['login'])){
             $commentReported = $this->commentManager->getReporting($_SESSION['id'],$_GET['commentId']);
-            //var_dump($reportedStatus['userId_reporter']);
-            var_dump($commentReported);
-            var_dump($_SESSION);
-            //var_dump($_GET);
             if($commentReported!== false){
-                //$reportedStatus=$commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
+                $this->error=true;
                 $this->msg="Vous avez déjà signalé ce commentaire";
                 $this->post();
             }
@@ -140,14 +136,13 @@ class FrontendController
                     'userId_reporter'=>$_SESSION['id']
                 ));
                 $reportedComment=$this->commentManager->reportComment($report);
-                //$reportedStatus=$this->commentManager->reportedStatus($_GET['commentId'],$_SESSION['id']);
+                $this->error=true;
                 $this->msg="Le commentaire a bien été signalé";
                 $this->post();
             }
-            //require('view/postView.php');
-            //header('Location: index.php?action=post&id=' . $_GET['id']);
         }
         else{
+            $this->error=true;
             $this->msg="Vous ne pouvez pas signaler de commentaire si vous n'êtes pas inscrits ou connectés";
             $this->post();
         }
