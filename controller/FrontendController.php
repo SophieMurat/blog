@@ -17,7 +17,9 @@ require_once("model/Report.php");
 class FrontendController
 {
     public $msg= "";
+    public $msgReport= "";
     public $error=false;
+    public $errorReport=false;
     private $postManager;
     private $commentManager;
 
@@ -38,13 +40,11 @@ class FrontendController
         }
         $perPage= 5;
         $start =$perPage*($currentPage-1);
-        //$end=$currentPage*$perPage;
         $pages = ceil($count /$perPage);
         if ($currentPage > $pages){
             throw new \Exception('Cette page n\'existe pas');
         }
         $posts = $this->postManager->getPosts($start,$perPage);
-        //var_dump($_SESSION);
 
         require('view/listPostsView.php');
     }
@@ -53,7 +53,6 @@ class FrontendController
         if (isset($_GET['id']) && $_GET['id'] > 0) {
             $post = $this->postManager->getPost($_GET['id']);
             $comments=$this->commentManager->getComments($_GET['id']);
-            //var_dump($comments);
             if($post === false || $comments === false){
                 header("HTTP:1.0 404 Not Found");
                 header('Location:index.php');
@@ -77,8 +76,8 @@ class FrontendController
                 'content'=>$_POST['content'],
                 'user_id'=>$_SESSION['id']));
             $created=$this->postManager->createPost($newPost);
-            //var_dump($newPost);
             if ($created === false) {
+                $this->error=true;
                 $this->msg='Impossible d\'ajouter l\'article !';
                 require('view/createPostView.php');
             }
@@ -88,6 +87,7 @@ class FrontendController
             }
         }
         else{
+            $this->error=true;
             $this->msg='Veuillez remplir le titre et le contenu de l\'article';
             require('view/createPostView.php');
         }
@@ -106,18 +106,21 @@ class FrontendController
             if ($newComment === false) {
                 $this->error=true;
                 $this->msg='Impossible d\'ajouter le commentaire !';
-                $this->post();
             }
             else{
-                header('Location: index.php?action=post&id=' . $_GET['id']);
+                $this->error=true;
+                $this->msg='Votre commentaire a bien été ajouté !';
             }
+        }
+        elseif (empty($_POST['comment_content'])&& isset($_SESSION['login'])){
+            $this->error=true;
+            $this->msg='Veuillez remplir le commentaire';
         }
         else{
             $this->error=true;
-            $this->msg='Veuillez vous inscrire ou vous connecter pour ajouter un commentaire';
-                //header('Location: index.php?action=post&id=' . $_GET['id']);
-            $this->post();
+            $this->msg='Veuillez vous inscrire ou vous connecter pour ajouter un commentaire';    
         }
+        $this->post();
     }
     /**
      * Report a comment when the button is clicked
@@ -126,8 +129,8 @@ class FrontendController
         if (isset($_GET['id']) && $_GET['id'] > 0 && isset($_SESSION['login'])){
             $commentReported = $this->commentManager->getReporting($_SESSION['id'],$_GET['commentId']);
             if($commentReported!== false){
-                $this->error=true;
-                $this->msg="Vous avez déjà signalé ce commentaire";
+                $this->errorReport=true;
+                $this->msgReport="Vous avez déjà signalé ce commentaire";
                 $this->post();
             }
             else{
@@ -136,14 +139,14 @@ class FrontendController
                     'userId_reporter'=>$_SESSION['id']
                 ));
                 $reportedComment=$this->commentManager->reportComment($report);
-                $this->error=true;
-                $this->msg="Le commentaire a bien été signalé";
+                $this->errorReport=true;
+                $this->msgReport="Le commentaire a bien été signalé";
                 $this->post();
             }
         }
         else{
-            $this->error=true;
-            $this->msg="Vous ne pouvez pas signaler de commentaire si vous n'êtes pas inscrits ou connectés";
+            $this->errorReport=true;
+            $this->msgReport="Vous ne pouvez pas signaler de commentaire si vous n'êtes pas inscrits ou connectés";
             $this->post();
         }
 

@@ -10,7 +10,7 @@ $subheadingPage='Pour participer au blog en laissant vos commentaires';
 <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form action="index.php?action=login" name="loginForm" id="login" method="post">
+        <form action="index.php?action=login#errorLogin" name="loginForm" id="login" method="post">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <label>Login</label>
@@ -30,7 +30,7 @@ $subheadingPage='Pour participer au blog en laissant vos commentaires';
             </div>
         </form>
         <?php if ($this->error): ?>
-        <p class="alert alert-danger"><?= $this->msg ?></p>
+        <p class="alert alert-danger" id="errorLogin"><?= $this->msg ?></p>
         <?php endif ?>
 
 <?php $content = ob_get_clean(); ?>

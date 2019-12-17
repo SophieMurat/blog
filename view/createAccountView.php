@@ -8,7 +8,7 @@ $subheadingPage='Remplissez le formulaire ci dessous';
 <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <form action="index.php?action=accountCreate" name="createAccount" id="contactForm" method="post">
+        <form action="index.php?action=accountCreate#createAccountError" name="createAccount" id="contactForm" method="post">
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <label>Nom</label>
@@ -44,7 +44,7 @@ $subheadingPage='Remplissez le formulaire ci dessous';
             </div>
         </form>
         <?php if ($this->error): ?>
-        <p class="alert alert-danger"><?= $this->msg ?></p>
+        <p class="alert alert-danger" id="createAccountError"><?= $this->msg ?></p>
         <?php endif ?>
       </div>
     </div>

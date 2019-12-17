@@ -48,14 +48,11 @@ class BackendController
                 }
                 else{
                     $hash_pwd=password_hash($_POST['password'], PASSWORD_DEFAULT);
-                    var_dump($hash_pwd);
                     $newUser = new User(array(
                         'user_name'=>$_POST['name'],
                         'password'=> $hash_pwd, 
                         'login'=>$_POST['login']));
-                    var_dump($newUser);
                     $this->userManager->setUser($newUser);
-                    //$this->msg='Votre inscription a bien été prise en compte';
                     header('Location: index.php?action=login');
                 }
             }
@@ -74,14 +71,12 @@ class BackendController
         if(isset($_POST['submit'])){
             if (!empty($_POST['login']) && !empty($_POST['password'])){
                 $user =$this->userManager->login($_POST['login']);
-                var_dump($user);
                 if(!$user){
                     $this->error=true;
                     $this->msg ='Login inconnu veuillez vous inscrire';
                 }
                 else{
                     $hashChecked=password_verify($_POST['password'],$user->password());
-                    //var_dump($hashChecked);
                     if($hashChecked){
                         if ($user->role() == 'admin'){
                             header('Location: index.php?action=admin');
@@ -181,13 +176,6 @@ class BackendController
                 'id'=>$_GET['id']
             ));
             $update=$this->postManager->postUpdate($updatedPost);
-            /*"<pre>";
-            var_dump($updatedPost);
-            echo "</pre>";
-            var_dump($update);
-            die();
-            /*print_r($_GET);
-            die();*/
             if ($update === false) {
                 $post = $this->postManager->getPost($_GET['id']);
                 $this->msg='Impossible de modifier l\'article !';
@@ -229,7 +217,6 @@ class BackendController
      */
     public function listReportedComments(){
             $reportedComments = $this->commentManager->getReportedComments();
-            //var_dump($reportedComments);
             require('view/listCommentsView.php');
     }
     /**
@@ -244,7 +231,6 @@ class BackendController
     public function deleteComment(){
         $reportedComments = $this->commentManager->getReportedComments();
         $delete=new Comment(array('id'=>$_GET['commentId']));
-        var_dump($delete);
         $deletedComment=$this->commentManager->deleteComment($delete);
         header('location:index.php?action=listReportedComments');
     }
