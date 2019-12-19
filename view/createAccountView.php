@@ -12,14 +12,14 @@ $subheadingPage='Remplissez le formulaire ci dessous';
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <label>Nom</label>
-                    <input type="text" class="form-control" name="name" placeholder="Nom" id="name" required data-validation-required-message="Veuillez remplir ce champs.">
+                    <input type="text" class="form-control" name="name" placeholder="Nom" id="name" pattern="[a-zA-ZÀ-ÿ-]+" title="Lettres et '-' acceptés">
                     <p class="help-block text-danger"></p>
                 </div>
             </div>
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <label>Login</label>
-                    <input type="text" class="form-control" name="login" placeholder="Login" id="login" required data-validation-required-message="Veuillez remplir ce champs.">
+                    <input type="text" class="form-control" name="login" placeholder="Login" id="login" pattern="[a-zA-ZÀ-ÿ0-9]+" title="Tous caractères alpha-numériques">
                     <p class="help-block text-danger"></p>
                 </div>
             </div>

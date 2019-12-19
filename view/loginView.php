@@ -14,7 +14,7 @@ $subheadingPage='Pour participer au blog en laissant vos commentaires';
             <div class="control-group">
                 <div class="form-group floating-label-form-group controls">
                     <label>Login</label>
-                    <input type="text" class="form-control" name ="login" placeholder="Login" id="login" required  data-validation-required-message="Veuillez remplir ce champs.">
+                    <input type="text" class="form-control" name ="login" placeholder="Login" id="login" pattern="[a-zA-ZÀ-ÿ0-9]+" title="Tous caractères alpha-numériques">
                 </div>
             </div>
             <div class="control-group">
