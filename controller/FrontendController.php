@@ -48,6 +48,9 @@ class FrontendController
 
         require('view/listPostsView.php');
     }
+    /**
+     * Get one post with its comments
+     */
     public function post()
     {
         if (isset($_GET['id']) && $_GET['id'] > 0) {

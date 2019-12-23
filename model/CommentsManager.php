@@ -16,10 +16,8 @@ class CommentsManager extends Manager{
     public function createComment(Comment $comment){
         $comments = $this->db->prepare('INSERT INTO comments(post_id, user_id, comment, comment_date) 
         VALUES(?, ?, ?, NOW())');
-        //var_dump($comment);
-        $affectedLines = $comments->execute(array($comment->getPost_id(), $comment->getUser_id(), $comment->getComment()));
-        /*$comments->debugDumpParams();
-        die();*/
+        $affectedLines = $comments->execute(array($comment->getPost_id(), $comment->getUser_id(), 
+        $comment->getComment()));
 
         return $affectedLines; 
     }
@@ -48,13 +46,6 @@ class CommentsManager extends Manager{
         $affectedLines=$req->execute(array($report->getComment_id(),$report->getUserId_reporter()));
         return $affectedLines;
     }
-    /*public function reportComment($commentId){
-        $db = $this->dbConnect();
-        $req=$db->prepare('UPDATE comments SET report= report+1 WHERE id=?');
-        $req->execute(array($commentId));
-        $req->debugDumpParams();
-        die();
-    }*/
     /**
      * Get all the reported comments
      */
@@ -80,12 +71,9 @@ class CommentsManager extends Manager{
     public function getReporting($userId,$commentId){
         $req=$this->db->prepare('SELECT comment_id, userId_reporter FROM reportings
         WHERE userId_reporter=? AND comment_id=?');
-        //var_dump($req);
         $req->execute(array($userId,$commentId));
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 
         'projet\blog\model\Report');
-        /*$req->debugDumpParams();
-        die();*/
         $comment=$req->fetch();
         return $comment;
     }

@@ -17,7 +17,9 @@ class Routeur {
         $this->FrontendController = new FrontendController();
         $this->BackendController = new BackendController();
     }
-
+    /**
+     * Choose the action according to the request
+     */
     public function routerRequete(){
         try{
             if (isset($_GET['action'])){

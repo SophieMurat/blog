@@ -17,26 +17,7 @@ class PostsManager extends Manager
         INNER JOIN users ON posts.user_id=users.id
         ORDER BY post_date DESC LIMIT $start,$perPage");
                 
-        /*$req->execute([
-            'start' => $start,
-            'perPage' => $perPage
-        ]);*/
-        //$req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'projet\blog\model\Post');
-        //var_dump($req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 'projet\blog\model\Post'));
-        //$posts=$req->fetchAll();
-        /*var_dump($req);
-        var_dump($posts);*/
-        $posts=$req->fetchAll(\PDO::FETCH_CLASS,'projet\blog\model\Post');
-        //var_dump($posts);
-        
-        /*if (!$posts){
-            return false;
-        }
-        else
-        {
-            return new Post($posts);
-        }*/
-    
+        $posts=$req->fetchAll(\PDO::FETCH_CLASS,'projet\blog\model\Post');  
         return $posts;
     }
     

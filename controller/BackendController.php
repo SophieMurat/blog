@@ -31,7 +31,9 @@ class BackendController
         $this->commentManager = new CommentsManager();
         $this->userManager= new UsersManager();
     }
-
+    /**
+     * Create an account
+     */
     public function accountCreate(){
         if(isset($_POST['submit'])){
             if (!empty($_POST['name']) && !empty($_POST['login'])
@@ -66,7 +68,9 @@ class BackendController
             require('view/createAccountView.php');
         }
     }
-
+    /**
+     * Sign in 
+     */
     public function login(){
         if(isset($_POST['submit'])){
             if (!empty($_POST['login']) && !empty($_POST['password'])){
@@ -164,7 +168,7 @@ class BackendController
             require('view/errorView.php');
         }   
     }
-        /**
+    /**
      * Update a post
      */
     public function updatePost(){
@@ -183,7 +187,6 @@ class BackendController
             }
             else {
                 $this->msg='';
-                //require('view/updatePostView.php');
                 header('Location: index.php?action=getAllPostAdmin');
             }
         }

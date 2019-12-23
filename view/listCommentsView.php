@@ -5,7 +5,7 @@ $subheadingPage="Choisissez une action";
 
 <?php ob_start(); ?>
 <div class="container">
-    <div class="table-responsive">
+    <div id="comment_table" class="table-responsive">
     <table class="table table-hover">
         <thead>
         <tr>
