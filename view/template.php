@@ -4,11 +4,19 @@
 <head>
 
   <meta charset="utf-8">
+  <link rel="shortcut icon" href="public/img/favicon.ico" type="image/x-icon">
+  <link rel="icon" href="public/img/favicon.ico" type="image/x-icon">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Blog de Jean Forteroche">
   <meta name="author" content="Jean Forteroche">
 
   <title><?= $title ?></title>
+  <!-- FB Open Graph data -->
+    <meta property="og:title" content="Un billet pour l'Alaska de Jean Forteroche" />
+    <meta property="og:type" content="Roman en ligne" />
+    <meta property="og:url" content="http://www.projet4.sophiemurat.fr" />
+    <meta property="og:image" content="public/img/logo.jpg" />
+    <meta property="og:description" content="Venez découvrir en ligne le dernier roman de Jean Forteroche"/>
 
   <!-- Bootstrap core CSS -->
   <link href="public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

@@ -406,3 +406,9 @@ footer .copyright {
   font-size: 16px;
   padding: 25px 35px;
 }
+@media screen and (max-width:768px){
+  #comment_table tr{
+    display:flex;
+    flex-direction: column;
+  }
+}

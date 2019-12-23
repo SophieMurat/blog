@@ -22,16 +22,12 @@ class Routeur {
      */
     public function routerRequete(){
         try{
-            if (isset($_GET['action'])){
-        
-                if ($_GET['action']== 'listPosts'){
+            if (isset($_GET['action'])){    
+                if ($_GET['action'] == 'listPosts'){
                     $this->FrontendController->listPosts();
                 }
                 elseif ($_GET['action'] == 'post') {
                     $this->FrontendController->post();
-                }
-                elseif ($_GET['action'] == 'addPost') {
-                    $this->FrontendController->addPostAdmin();
                 }
                 elseif ($_GET['action'] == 'addComment') {
                     $this->FrontendController->addComment();
@@ -40,16 +36,39 @@ class Routeur {
                     $this->FrontendController->reportComment();
                 }
                 elseif ($_GET['action'] == 'accountCreate'){
-                    $this->BackendController->accountcreate();
+                    $this->FrontendController->accountcreate();
                 }
                 elseif ($_GET['action'] == 'login'){
-                    $this->BackendController->login();
+                    $this->FrontendController->login();
+                }
+                elseif ($_GET['action'] == 'unlog'){
+                    $this->FrontendController->unplug();
+                }
+                else{
+                    $this->FrontendController->error();
+                }
+            }
+            elseif(isset($_SESSION['role']) == 'admin' && isset($_GET['action'])){
+                if ($_GET['action'] == 'addPost') {
+                    $this->BackendController->addPostAdmin();
                 }
                 elseif ($_GET['action'] == 'admin'){
                     $this->BackendController->admin();
                 }
-                elseif ($_GET['action'] == 'unlog'){
-                    $this->BackendController->unplug();
+                elseif ($_GET['action'] == 'resetReport'){
+                    $this->BackendController->resetReport(); 
+                }
+                elseif ($_GET['action'] == 'displayChoices'){
+                    $this->BackendController->displayChoices(); 
+                }
+                elseif ($_GET['action'] == 'postDelete'){
+                    $this->BackendController->deletePost(); 
+                }
+                elseif ($_GET['action'] == 'listReportedComments'){
+                    $this->BackendController->listReportedComments(); 
+                }
+                elseif ($_GET['action'] == 'deleteComment'){
+                    $this->BackendController->deleteComment(); 
                 }
                 elseif ($_GET['action'] == 'createArticle'){
                     $this->BackendController->createPost(); 
@@ -66,20 +85,8 @@ class Routeur {
                 elseif ($_GET['action'] == 'postUpdate'){
                     $this->BackendController->updatePost(); 
                 }
-                elseif ($_GET['action'] == 'postDelete'){
-                    $this->BackendController->deletePost(); 
-                }
-                elseif ($_GET['action'] == 'listReportedComments'){
-                    $this->BackendController->listReportedComments(); 
-                }
-                elseif ($_GET['action'] == 'deleteComment'){
-                    $this->BackendController->deleteComment(); 
-                }
-                elseif ($_GET['action'] == 'displayChoices'){
-                    $this->BackendController->displayChoices(); 
-                }
-                elseif ($_GET['action'] == 'resetReport'){
-                    $this->BackendController->resetReport(); 
+                else{
+                    $this->FrontendController->error();
                 }
             }
             else {
