@@ -44,42 +44,47 @@ class Routeur {
                 elseif ($_GET['action'] == 'unlog'){
                     $this->FrontendController->unplug();
                 }
-                elseif(isset($_SESSION['role']) == 'admin' && isset($_GET['action'])){
-                    if ($_GET['action'] == 'addPost') {
-                        $this->BackendController->addPostAdmin();
-                    }
-                    elseif ($_GET['action'] == 'admin'){
-                        $this->BackendController->admin();
-                    }
-                    elseif ($_GET['action'] == 'resetReport'){
-                        $this->BackendController->resetReport(); 
-                    }
-                    elseif ($_GET['action'] == 'displayChoices'){
-                        $this->BackendController->displayChoices(); 
-                    }
-                    elseif ($_GET['action'] == 'postDelete'){
-                        $this->BackendController->deletePost(); 
-                    }
-                    elseif ($_GET['action'] == 'listReportedComments'){
-                        $this->BackendController->listReportedComments(); 
-                    }
-                    elseif ($_GET['action'] == 'deleteComment'){
-                        $this->BackendController->deleteComment(); 
-                    }
-                    elseif ($_GET['action'] == 'createArticle'){
-                        $this->BackendController->createPost(); 
-                    }
-                    elseif ($_GET['action'] == 'getAllPostAdmin'){
-                        $this->BackendController->listPostsAdmin(); 
-                    }
-                    elseif ($_GET['action'] == 'postAdmin'){
-                        $this->BackendController->postAdmin(); 
-                    }
-                    elseif ($_GET['action'] == 'postModify'){
-                        $this->BackendController->modifyPost(); 
-                    }
-                    elseif ($_GET['action'] == 'postUpdate'){
-                        $this->BackendController->updatePost(); 
+                elseif(!empty($_SESSION)){
+                    if(($_SESSION['role']) == 'admin' && isset($_GET['action'])){
+                        if ($_GET['action'] == 'addPost') {
+                            $this->BackendController->addPostAdmin();
+                        }
+                        elseif ($_GET['action'] == 'admin'){
+                            $this->BackendController->admin();
+                        }
+                        elseif ($_GET['action'] == 'resetReport'){
+                            $this->BackendController->resetReport(); 
+                        }
+                        elseif ($_GET['action'] == 'displayChoices'){
+                            $this->BackendController->displayChoices(); 
+                        }
+                        elseif ($_GET['action'] == 'postDelete'){
+                            $this->BackendController->deletePost(); 
+                        }
+                        elseif ($_GET['action'] == 'listReportedComments'){
+                            $this->BackendController->listReportedComments(); 
+                        }
+                        elseif ($_GET['action'] == 'deleteComment'){
+                            $this->BackendController->deleteComment(); 
+                        }
+                        elseif ($_GET['action'] == 'createArticle'){
+                            $this->BackendController->createPost(); 
+                        }
+                        elseif ($_GET['action'] == 'getAllPostAdmin'){
+                            $this->BackendController->listPostsAdmin(); 
+                        }
+                        elseif ($_GET['action'] == 'postAdmin'){
+                            $this->BackendController->postAdmin(); 
+                        }
+                        elseif ($_GET['action'] == 'postModify'){
+                            $this->BackendController->modifyPost(); 
+                        }
+                        elseif ($_GET['action'] == 'postUpdate'){
+                            $this->BackendController->updatePost(); 
+                        }
+                        else{
+                            $this->FrontendController->error();
+                        }
                     }
                     else{
                         $this->FrontendController->error();
