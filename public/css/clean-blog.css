@@ -406,15 +406,25 @@ footer .copyright {
   font-size: 16px;
   padding: 25px 35px;
 }
+#comment_responsive{
+  display: none;
+}
 @media screen and (max-width:768px){
   #comment_table tr{
     display:flex;
     flex-direction: column;
   }
+  #comment_responsive{
+    display: flex;
+    flex-direction: column;
+  }
+  #comment_responsive p{
+    margin:0;
+  }
   #comment_table thead{
     display:none;
   }
-  .non_responsive th{
+  .non_responsive{
     display:none;
   }
 }
