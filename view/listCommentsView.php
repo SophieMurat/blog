@@ -20,12 +20,14 @@ $subheadingPage="Choisissez une action";
         <tbody>
         <?php foreach($reportedComments as $comment): ?>
         <tr>
-            <td><?= $comment->getPost_title() ?></td>
-            <td><?= $comment->getComment_date_fr() ?></td>
-            <td><?= $comment->getAuthor() ?></td>
-            <td><?= $comment->getComment() ?></td>
-            <td><?= $comment->getNbr_comments()?></td>
+            <td class="non_responsive"><?= $comment->getPost_title() ?></td>
+            <td class="non_responsive"><?= $comment->getComment_date_fr() ?></td>
+            <td class="non_responsive"><?= $comment->getAuthor() ?></td>
+            <td class="non_responsive"><?= $comment->getComment() ?></td>
+            <td class="non_responsive"><?= $comment->getNbr_comments()?></td>
             <td>
+            <p id="comment_responsive">Commentaire: <span class="text-info"><?= $comment->getComment()?></span>  sur l'article <?= $comment->getPost_title() ?> posté le 
+            <?= $comment->getComment_date_fr() ?> signalé <?= $comment->getNbr_comments()?> fois.</p>
             <div class="btn-group" role="group">
                 <a href="href=index.php?action=displayChoices&amp;commentId=<?= $comment->getId()?>"><button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></a>
                 Choix</button>

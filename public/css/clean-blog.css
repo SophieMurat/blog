@@ -411,4 +411,10 @@ footer .copyright {
     display:flex;
     flex-direction: column;
   }
+  #comment_table thead{
+    display:none;
+  }
+  .non_responsive th{
+    display:none;
+  }
 }
