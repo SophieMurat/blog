@@ -79,7 +79,7 @@ class FrontendController
      * Add a comment to a post when a user is connected
      */
     public function addComment(){
-        if (!empty($_POST['comment_content'])&& isset($_SESSION['login'])){
+        if (!empty($_POST['comment_content'])&& isset($_SESSION['login'])&& strlen(trim($_POST['comment_content']))>0){
             $commentCreate= new Comment(array(
                 'post_id'=>$_GET['id'],
                 'user_id'=>$_SESSION['id'],
@@ -95,7 +95,7 @@ class FrontendController
                 $this->msg='Votre commentaire a bien été ajouté !';
             }
         }
-        elseif (empty($_POST['comment_content'])&& isset($_SESSION['login'])){
+        elseif ((empty($_POST['comment_content'])&& isset($_SESSION['login'])) || ((strlen(trim($_POST['comment_content']))==0) && isset($_SESSION['login']))){
             $this->error=true;
             $this->msg='Veuillez remplir le commentaire';
         }

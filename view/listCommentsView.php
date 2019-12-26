@@ -20,15 +20,15 @@ $subheadingPage="Choisissez une action";
         <tbody>
         <?php foreach($reportedComments as $comment): ?>
         <tr>
-            <td class="non_responsive"><?= $comment->getPost_title() ?></td>
+            <td class="non_responsive"><?= htmlspecialchars($comment->getPost_title()) ?></td>
             <td class="non_responsive"><?= $comment->getComment_date_fr() ?></td>
-            <td class="non_responsive"><?= $comment->getAuthor() ?></td>
-            <td class="non_responsive"><?= $comment->getComment() ?></td>
+            <td class="non_responsive"><?= htmlspecialchars($comment->getAuthor()) ?></td>
+            <td class="non_responsive"><?= htmlspecialchars($comment->getComment()) ?></td>
             <td class="non_responsive"><?= $comment->getNbr_comments()?></td>
             <td class="text-center">
             <div id="comment_responsive"><p>Commentaire: </p> 
-                <p class="text-info"> <?= $comment->getComment()?> </p>
-                <p>Article <?= $comment->getPost_title() ?></p> 
+                <p class="text-info"> <?= htmlspecialchars($comment->getComment())?> </p>
+                <p>Article <?= htmlspecialchars($comment->getPost_title()) ?></p> 
                 <p>posté le <?= $comment->getComment_date_fr()?></p> 
                 <p>signalé <?= $comment->getNbr_comments()?> fois.</p>
             </div>

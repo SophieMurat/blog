@@ -22,7 +22,7 @@
                 <br/>
             </h3>
           </a>
-          <p class="post-meta">Posté par <?= $post->getAuthor() ?>
+          <p class="post-meta">Posté par <?= htmlspecialchars($post->getAuthor()) ?>
             le  <?= $post->getPost_date_fr() ?> </p>
         </div>
         <hr>

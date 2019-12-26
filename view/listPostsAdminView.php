@@ -18,7 +18,7 @@ $subheadingPage="";
                 <?= htmlspecialchars($data->getTitle()) ?>
             </h2>
             <h3 class="post-subtitle">
-                <?= substr(nl2br($data->getContent()),0,100) ?>...
+                <?= (substr(nl2br($data->getContent()),0,100)) ?>...
                 <br/>
             </h3>
             <p class="post-meta">Posté le  <?= $data->getPost_date_fr() ?> </p>
