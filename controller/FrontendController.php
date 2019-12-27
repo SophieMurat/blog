@@ -40,15 +40,24 @@ class FrontendController
     public function listPosts()
     {
         $count = $this->postManager->countPost();
-        $currentPage=(int)($_GET['page'] ?? 1);
+        $currentPage=$_GET['page'] ?? 1;
+        if(!filter_var($currentPage, FILTER_VALIDATE_INT)){
+            $this->msg='Numéro de page invalide';
+            require('view/errorView.php');
+        }
         if($currentPage <= 0) {
-            throw new \Exception('Numéro de page invalide');
+            $this->msg='Numéro de page invalide';
+            require('view/errorView.php');
+        }
+        if($currentPage === '1'){
+            header('Location: index.php?action=listPosts');
         }
         $perPage= 5;
         $start =$perPage*($currentPage-1);
         $pages = ceil($count /$perPage);
         if ($currentPage > $pages){
-            throw new \Exception('Cette page n\'existe pas');
+            $this->msg='Cette page n\'existe pas';
+            require('view/errorView.php');
         }
         $posts = $this->postManager->getPosts($start,$perPage);
 
