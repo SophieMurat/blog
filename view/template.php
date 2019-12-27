@@ -17,6 +17,13 @@
     <meta property="og:url" content="http://www.projet4.sophiemurat.fr" />
     <meta property="og:image" content="public/img/logo.jpg" />
     <meta property="og:description" content="Venez découvrir en ligne le dernier roman de Jean Forteroche"/>
+  
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="Roman en ligne" />
+    <meta name="twitter:title" content="Un billet pour l'Alaska de Jean Forteroche" />
+    <meta name="twitter:image:src" content="http://www.projet4.sophiemurat.fr/public/img/logo.png" />
+    <meta name="twitter:description" content="Venez découvrir en ligne le dernier roman de Jean Forteroche"/>
 
   <!-- Bootstrap core CSS -->
   <link href="public/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
