@@ -25,10 +25,15 @@ class BackendController
         $this->postManager = new PostsManager();
         $this->commentManager = new CommentsManager();
     }
- 
+    /**
+     * Open the admin dashboard 
+     */
     public function admin(){
         require('view/adminView.php');
     }
+    /**
+     * Open the page where we can create a new post
+     */
     public function createPost(){
         require('view/createPostView.php');
     }
@@ -36,7 +41,7 @@ class BackendController
      * Add a post to listpostAdmin
      */
     public function addPostAdmin(){
-        if (!empty($_POST['title']) && !empty($_POST['content'])){
+        if (!empty($_POST['title']) && !empty($_POST['content']) && strlen(trim($_POST['title']))){
             $newPost= new Post(array(
                 'title'=>$_POST['title'],
                 'content'=>$_POST['content'],
@@ -58,12 +63,18 @@ class BackendController
             require('view/createPostView.php');
         }
     }
+    /**
+     * List all the posts in the admin part
+     */
     public function listPostsAdmin()
     {
         $posts = $this->postManager->getAllPosts();
 
         require('view/listPostsAdminView.php');
     }
+    /**
+     * Open one single post in the admin part
+     */
     public function postAdmin()
     {
         if (isset($_GET['id']) && $_GET['id'] > 0) {
@@ -104,7 +115,7 @@ class BackendController
      * Update a post
      */
     public function updatePost(){
-        if (!empty($_POST['title']) && !empty($_POST['content'])){
+        if (!empty($_POST['title']) && !empty($_POST['content']) && strlen(trim($_POST['title']))){
             $updatedPost= new Post(array(
                 'title'=>$_POST['title'],
                 'content'=>$_POST['content'],
@@ -114,6 +125,7 @@ class BackendController
             $update=$this->postManager->postUpdate($updatedPost);
             if ($update === false) {
                 $post = $this->postManager->getPost($_GET['id']);
+                $this->error= true;
                 $this->msg='Impossible de modifier l\'article !';
                 require('view/updatePostView.php');
             }
@@ -123,8 +135,10 @@ class BackendController
             }
         }
         else{
+            $post = $this->postManager->getPost($_GET['id']);
+            $this->error= true;
             $this->msg='Veuillez remplir tous les champs!';
-            header('Location: index.php?action=postModify&id='. $_GET['id']);
+            require('view/updatePostView.php');
         }
     }
     /**

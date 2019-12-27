@@ -1,5 +1,5 @@
 <?php $title = 'Admin';
-$titlePage= 'Bonjour Jean!';
+$titlePage= 'Bonjour ' .$_SESSION['user_name'].' !';
 $subheadingPage="Tableau de bord";
 ?>
 

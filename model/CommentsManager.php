@@ -57,16 +57,15 @@ class CommentsManager extends Manager{
         INNER JOIN posts ON comments.post_id=posts.id 
         INNER JOIN reportings ON comments.id=reportings.comment_id 
         GROUP BY comments.id ORDER BY nbr_comments DESC');
-        /*$req->debugDumpParams();
-        die();*/
         $req->setFetchMode(\PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE, 
         'projet\blog\model\Comment');
         return $req;
-        //var_dump($reportedComments);
     }
     
     /**
      * Get one reporting
+     * @param [int] $userId
+     * @param [int] $commentId
      */
     public function getReporting($userId,$commentId){
         $req=$this->db->prepare('SELECT comment_id, userId_reporter FROM reportings

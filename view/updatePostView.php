@@ -30,7 +30,9 @@ $subheadingPage="";
                     <button type="submit" class="btn btn-primary" id="sendMessageButton">Modifier l'article</button>
                 </div>
             </form>
-            <p><?= $this->msg ?></p>
+            <?php if ($this->error): ?>
+            <p class="alert alert-danger"><?= $this->msg ?></p>
+            <?php endif ?>
         </div>
       </div>
     </div>
